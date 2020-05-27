@@ -37,87 +37,86 @@ class Card {
   ThreeDSecureUsage threeDSecureUsage;
   Wallet wallet;
 
-  Card({
-    this.addressCity,
-    this.addressCountry,
-    this.addressLine1,
-    this.addressLine1Check,
-    this.addressLine2,
-    this.addressState,
-    this.addressZip,
-    this.addressZipCheck,
-    this.brand,
-    this.id,
-    this.object,
-    this.country,
-    this.currency,
-    this.cvcCheck,
-    this.dynamicLast4,
-    this.expMonth,
-    this.expYear,
-    this.fingerprint,
-    this.funding,
-    this.last4,
-    this.metadata,
-    this.name,
-    this.tokenizationMethod
-  });
+  Card(
+      {this.addressCity,
+      this.addressCountry,
+      this.addressLine1,
+      this.addressLine1Check,
+      this.addressLine2,
+      this.addressState,
+      this.addressZip,
+      this.addressZipCheck,
+      this.brand,
+      this.id,
+      this.object,
+      this.country,
+      this.currency,
+      this.cvcCheck,
+      this.dynamicLast4,
+      this.expMonth,
+      this.expYear,
+      this.fingerprint,
+      this.funding,
+      this.last4,
+      this.metadata,
+      this.name,
+      this.tokenizationMethod});
   factory Card.fromJson(Map<String, dynamic> json) => _$CardFromJson(json);
   Map<String, dynamic> toJson() => _$CardToJson(this);
 }
 
-enum CardBrand { 
+enum CardBrand {
   @JsonValue("American Express")
-  americanExpress, 
+  americanExpress,
   @JsonValue("Diners Club")
-  dinersClub, 
+  dinersClub,
   @JsonValue("Discover")
-  discover, 
+  discover,
   @JsonValue("JCB")
-  jcb, 
+  jcb,
   @JsonValue("MasterCard")
-  masterCard, 
+  masterCard,
   @JsonValue("UnionPay")
-  unionPay, 
+  unionPay,
   @JsonValue("Visa")
-  visa, 
+  visa,
   @JsonValue("Unknown")
-  unknown, 
+  unknown,
 }
 
-enum AddressFieldCheck { 
+enum AddressFieldCheck {
   @JsonValue("pass")
-  pass, 
+  pass,
   @JsonValue("fail")
-  fail, 
+  fail,
   @JsonValue("unavailable")
-  unavailable, 
+  unavailable,
   @JsonValue("unchecked")
   unchecked
 }
 
-enum Funding { 
+enum Funding {
   @JsonValue("credit")
-  credit, 
+  credit,
   @JsonValue("debit")
-  debit, 
+  debit,
   @JsonValue("prepaid")
-  prepaid, 
+  prepaid,
   @JsonValue("unknown")
   unknown
 }
 
-enum TokenizationMethod { 
+enum TokenizationMethod {
   @JsonValue("amex_express_checkout")
-  amexExpressCheckout, 
+  amexExpressCheckout,
   @JsonValue("android_pay")
-  androidPay, 
+  androidPay,
   @JsonValue("google_pay")
-  googlePay, 
+  googlePay,
   @JsonValue("apple_pay")
-  applePay, 
+  applePay,
   @JsonValue("samsung_pay")
-  samsungPay, 
+  samsungPay,
   @JsonValue("masterpass")
   masterpass,
   @JsonValue("visa_checkout")

@@ -332,7 +332,7 @@ class StripeCard {
     }
   }
 
-    String asCardBackImage() {
+  String asCardBackImage() {
     if (brand == null || brand.trim().isEmpty) {
       return null;
     }

@@ -69,17 +69,17 @@ String nullIfNullOrEmpty(String possibleNull) {
 
 removeNullAndEmptyParams(Map<String, Object> mapToEdit) {
 // Remove all null values; they cause validation errors
-    final keys = mapToEdit.keys.toList(growable: false);
-    for (String key in keys) {
-      final value = mapToEdit[key];
-      if (value == null) {
+  final keys = mapToEdit.keys.toList(growable: false);
+  for (String key in keys) {
+    final value = mapToEdit[key];
+    if (value == null) {
+      mapToEdit.remove(key);
+    } else if (value is String) {
+      if (value.isEmpty) {
         mapToEdit.remove(key);
-      } else if (value is String) {
-        if (value.isEmpty) {
-          mapToEdit.remove(key);
-        }
-      } else if (value is Map) {
-        removeNullAndEmptyParams(value);
       }
+    } else if (value is Map) {
+      removeNullAndEmptyParams(value);
     }
   }
+}

@@ -42,7 +42,8 @@ class PaymentIntents {
       return StripeError.fromJson(result["error"]);
     } else {
       var intent = PaymentIntent.fromJson(result);
-      if (intent.status == PaymentIntentStatus.requiresAction && intent.nextAction.type == IntentActionType.redirectToUrl) {
+      if (intent.status == PaymentIntentStatus.requiresAction &&
+          intent.nextAction.type == IntentActionType.redirectToUrl) {
         var result = await _stripe.authenticateIntent(
             intent.nextAction,
             (uri) => retrievePaymentIntent(

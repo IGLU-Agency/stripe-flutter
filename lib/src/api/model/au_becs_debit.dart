@@ -9,8 +9,7 @@ class AuBecsDebit {
   String fingerprint;
   String last4;
 
-  AuBecsDebit(
-      {this.bsbNumber, this.fingerprint, this.last4});
+  AuBecsDebit({this.bsbNumber, this.fingerprint, this.last4});
   factory AuBecsDebit.fromJson(Map<String, dynamic> json) =>
       _$AuBecsDebitFromJson(json);
   Map<String, dynamic> toJson() => _$AuBecsDebitToJson(this);

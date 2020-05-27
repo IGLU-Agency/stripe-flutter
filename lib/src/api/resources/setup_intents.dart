@@ -17,7 +17,7 @@ class SetupIntents {
     final intentId = parseIdFromClientSecret(clientSecret);
     final path = "/setup_intents/$intentId";
     final params = {'client_secret': clientSecret};
-    var result = await _stripe.request(RequestMethod.get, path,params: params);
+    var result = await _stripe.request(RequestMethod.get, path, params: params);
     if (result.containsKey("isError") && result.containsKey("error")) {
       return StripeError.fromJson(result["error"]);
     } else {
@@ -37,13 +37,15 @@ class SetupIntents {
     params['client_secret'] = clientSecret;
     params.putIfAbsent("return_url", () => _stripe.getReturnUrlForSca());
     final path = "/setup_intents/$intent/confirm";
-    var result = await _stripe.request(RequestMethod.post, path, params: params);
+    var result =
+        await _stripe.request(RequestMethod.post, path, params: params);
     print(result);
     if (result.containsKey("isError") && result.containsKey("error")) {
       return StripeError.fromJson(result["error"]);
     } else {
       var intent = SetupIntent.fromJson(result);
-      if (intent.status == SetupIntentStatus.requiresAction && intent.nextAction.type == IntentActionType.redirectToUrl) {
+      if (intent.status == SetupIntentStatus.requiresAction &&
+          intent.nextAction.type == IntentActionType.redirectToUrl) {
         var result = await _stripe.authenticateIntent(
             intent.nextAction,
             (uri) => retrieveSetupIntent(

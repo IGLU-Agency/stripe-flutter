@@ -16,12 +16,19 @@ class PaymentMethodData {
   IdealMethod ideal;
   SepaDebitMethod sepaDebit;
 
-
-  PaymentMethodData({this.billingDetails, this.metadata, this.type, this.auBecsDebit, this.card, this.fpx, this.ideal, this.sepaDebit});
-  factory PaymentMethodData.fromJson(Map<String, dynamic> json) => _$PaymentMethodDataFromJson(json);
+  PaymentMethodData(
+      {this.billingDetails,
+      this.metadata,
+      this.type,
+      this.auBecsDebit,
+      this.card,
+      this.fpx,
+      this.ideal,
+      this.sepaDebit});
+  factory PaymentMethodData.fromJson(Map<String, dynamic> json) =>
+      _$PaymentMethodDataFromJson(json);
   Map<String, dynamic> toJson() => _$PaymentMethodDataToJson(this);
 }
-
 
 @JsonSerializable(
     nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
@@ -30,7 +37,8 @@ class AuBecsDebitMethod {
   String bsbNumber;
 
   AuBecsDebitMethod({this.accountNumber, this.bsbNumber});
-  factory AuBecsDebitMethod.fromJson(Map<String, dynamic> json) => _$AuBecsDebitMethodFromJson(json);
+  factory AuBecsDebitMethod.fromJson(Map<String, dynamic> json) =>
+      _$AuBecsDebitMethodFromJson(json);
   Map<String, dynamic> toJson() => _$AuBecsDebitMethodToJson(this);
 }
 
@@ -43,7 +51,8 @@ class CardMethod {
   String cvc;
 
   CardMethod({this.cvc, this.expMonth, this.expYear, this.number});
-  factory CardMethod.fromJson(Map<String, dynamic> json) => _$CardMethodFromJson(json);
+  factory CardMethod.fromJson(Map<String, dynamic> json) =>
+      _$CardMethodFromJson(json);
   Map<String, dynamic> toJson() => _$CardMethodToJson(this);
 }
 
@@ -53,7 +62,8 @@ class FpxMethod {
   String bank;
   FpxMethod({this.bank});
 
-  factory FpxMethod.fromJson(Map<String, dynamic> json) => _$FpxMethodFromJson(json);
+  factory FpxMethod.fromJson(Map<String, dynamic> json) =>
+      _$FpxMethodFromJson(json);
   Map<String, dynamic> toJson() => _$FpxMethodToJson(this);
 }
 
@@ -62,8 +72,9 @@ class FpxMethod {
 class IdealMethod {
   String bank;
   IdealMethod({this.bank});
-  
-  factory IdealMethod.fromJson(Map<String, dynamic> json) => _$IdealMethodFromJson(json);
+
+  factory IdealMethod.fromJson(Map<String, dynamic> json) =>
+      _$IdealMethodFromJson(json);
   Map<String, dynamic> toJson() => _$IdealMethodToJson(this);
 }
 
@@ -72,7 +83,8 @@ class IdealMethod {
 class SepaDebitMethod {
   String iban;
   SepaDebitMethod({this.iban});
-  
-  factory SepaDebitMethod.fromJson(Map<String, dynamic> json) => _$SepaDebitMethodFromJson(json);
+
+  factory SepaDebitMethod.fromJson(Map<String, dynamic> json) =>
+      _$SepaDebitMethodFromJson(json);
   Map<String, dynamic> toJson() => _$SepaDebitMethodToJson(this);
 }

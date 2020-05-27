@@ -42,8 +42,12 @@ class Stripe {
   /// Strong Customer Authentication (SCA) such as 3DS, 3DS2, BankID and others.
   /// It is recommended to use your own app specific url scheme and host.
   Stripe(this.publishableKey,
-      {this.apiVersion = defaultApiVersion, this.locale = SupportLocale.auto, String stripeAccount, String returnUrlForSca})
-      : _apiHandler = StripeApiHandler(stripeAccount: stripeAccount, locale: locale) {
+      {this.apiVersion = defaultApiVersion,
+      this.locale = SupportLocale.auto,
+      String stripeAccount,
+      String returnUrlForSca})
+      : _apiHandler =
+            StripeApiHandler(stripeAccount: stripeAccount, locale: locale) {
     _validateKey(publishableKey, stripeAccount);
     _returnUrlForSca = returnUrlForSca ?? "stripesdk://3ds.stripesdk.io";
     _apiHandler.apiVersion = apiVersion;
@@ -67,10 +71,14 @@ class Stripe {
   /// parameter must match your "android/app/src/main/AndroidManifest.xml"
   /// and "ios/Runner/Info.plist" configuration.
   static void init(String publishableKey,
-      {String apiVersion = defaultApiVersion, String stripeAccount, String returnUrlForSca}) {
+      {String apiVersion = defaultApiVersion,
+      String stripeAccount,
+      String returnUrlForSca}) {
     if (_instance == null) {
       _instance = Stripe(publishableKey,
-          apiVersion: apiVersion, stripeAccount: stripeAccount, returnUrlForSca: returnUrlForSca);
+          apiVersion: apiVersion,
+          stripeAccount: stripeAccount,
+          returnUrlForSca: returnUrlForSca);
     }
   }
 
@@ -97,11 +105,11 @@ class Stripe {
     }
   }
 
-  Future<Map<String, dynamic>> request(
-      RequestMethod method, String path,
+  Future<Map<String, dynamic>> request(RequestMethod method, String path,
       {Map<String, dynamic> params}) {
     removeNullAndEmptyParams(params);
-    return _apiHandler.request(method, path, publishableKey, defaultApiVersion, params: params);
+    return _apiHandler.request(method, path, publishableKey, defaultApiVersion,
+        params: params);
   }
 
   /// Creates a return URL that can be used to authenticate a single PaymentIntent.
@@ -111,7 +119,8 @@ class Stripe {
     return "$_returnUrlForSca?requestId=$requestId";
   }
 
-  Future<dynamic> authenticateIntent(IntentAction action, IntentProvider callback) async {
+  Future<dynamic> authenticateIntent(
+      IntentAction action, IntentProvider callback) async {
     final url = action.redirectToUrl.url;
     final returnUrl = Uri.parse(action.redirectToUrl.returnUrl);
     final completer = Completer<dynamic>();
@@ -119,7 +128,8 @@ class Stripe {
     sub = getUriLinksStream().listen((Uri uri) async {
       if (uri.scheme == returnUrl.scheme &&
           uri.host == returnUrl.host &&
-          uri.queryParameters['requestId'] == returnUrl.queryParameters['requestId']) {
+          uri.queryParameters['requestId'] ==
+              returnUrl.queryParameters['requestId']) {
         await sub.cancel();
         final intent = await callback(uri);
         completer.complete(intent);

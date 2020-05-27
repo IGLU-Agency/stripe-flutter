@@ -13,12 +13,12 @@ class ConfirmSetupIntentRequest {
   Map<String, dynamic> mandateData;
   bool useStripeSdk;
 
-  ConfirmSetupIntentRequest({
-    this.returnUrl,
-    this.mandateData,
-    this.paymentMethod,
-    this.useStripeSdk
-  });
-  factory ConfirmSetupIntentRequest.fromJson(Map<String, dynamic> json) => _$ConfirmSetupIntentRequestFromJson(json);
+  ConfirmSetupIntentRequest(
+      {this.returnUrl,
+      this.mandateData,
+      this.paymentMethod,
+      this.useStripeSdk});
+  factory ConfirmSetupIntentRequest.fromJson(Map<String, dynamic> json) =>
+      _$ConfirmSetupIntentRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ConfirmSetupIntentRequestToJson(this);
 }

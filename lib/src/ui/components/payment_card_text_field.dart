@@ -13,15 +13,14 @@ class PaymentCardTextField extends StatefulWidget {
   final Color textColor;
   final Color hintColor;
 
-  PaymentCardTextField({
-    this.showZip = false,
-    this.onCardChanged,
-    this.primaryColor = Colors.blue,
-    this.errorColor = Colors.red,
-    this.backgroundColor = Colors.white,
-    this.hintColor,
-    this.textColor = const Color.fromRGBO(35, 35, 35, 1)
-  });
+  PaymentCardTextField(
+      {this.showZip = false,
+      this.onCardChanged,
+      this.primaryColor = Colors.blue,
+      this.errorColor = Colors.red,
+      this.backgroundColor = Colors.white,
+      this.hintColor,
+      this.textColor = const Color.fromRGBO(35, 35, 35, 1)});
 
   @override
   _PaymentCardTextFieldState createState() => _PaymentCardTextFieldState();
@@ -348,7 +347,8 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                   width: _cardNumberWidth,
                   child: TextFormField(
                     onChanged: (val) {
-                      if (card.number == null || (card.number.length <= val.length + 1)) {
+                      if (card.number == null ||
+                          (card.number.length <= val.length + 1)) {
                         _onCardNumberChanged();
                       }
                     },
@@ -365,8 +365,10 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                         color: widget.textColor),
                     decoration: InputDecoration.collapsed(
                       hintText: 'Card Number',
-                      hintStyle:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15, color: widget.hintColor),
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: widget.hintColor),
                     ),
                   ),
                 ),
@@ -395,8 +397,10 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                         color: widget.textColor),
                     decoration: InputDecoration.collapsed(
                       hintText: 'MM/YY',
-                      hintStyle:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15, color: widget.hintColor),
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: widget.hintColor),
                     ),
                   ),
                 ),
@@ -428,13 +432,15 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                       controller: _cardCVVController,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: widget.textColor),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: widget.textColor),
                       decoration: InputDecoration.collapsed(
                         hintText: 'CVV',
                         hintStyle: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 15, color: widget.hintColor),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            color: widget.hintColor),
                       ),
                     ),
                   ),
@@ -458,8 +464,10 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                         color: widget.textColor),
                     decoration: InputDecoration.collapsed(
                       hintText: 'ZIP',
-                      hintStyle:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15, color: widget.hintColor),
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: widget.hintColor),
                     ),
                   ),
                 ),

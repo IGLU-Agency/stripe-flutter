@@ -11,8 +11,7 @@ class ShippingOption {
   double amount;
 
   ShippingOption({this.id, this.amount, this.detail, this.label});
-  factory ShippingOption.fromJson(Map<String, dynamic> json) => _$ShippingOptionFromJson(json);
+  factory ShippingOption.fromJson(Map<String, dynamic> json) =>
+      _$ShippingOptionFromJson(json);
   Map<String, dynamic> toJson() => _$ShippingOptionToJson(this);
 }
-
-

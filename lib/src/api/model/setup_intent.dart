@@ -58,7 +58,6 @@ class SetupIntent {
   Map<String, dynamic> toJson() => _$SetupIntentToJson(this);
 }
 
-
 enum SetupIntentStatus {
   @JsonValue("requires_payment_method")
   requiresPaymentMethod,

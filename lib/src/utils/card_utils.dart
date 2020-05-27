@@ -64,7 +64,6 @@ bool isValidLuhnNumber(String cardNumber) {
   return valid;
 }
 
-
 /// Checks to see whether the input number is of the correct length, given the assumed brand of
 /// the card. This function does not perform a Luhn check.
 ///

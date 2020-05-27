@@ -29,10 +29,9 @@ class MaskedTextController extends TextEditingController {
   String _lastUpdatedText = '';
 
   void updateText(String text) {
-    if(text != null){
+    if (text != null) {
       this.text = this._applyMask(this.mask, text);
-    }
-    else {
+    } else {
       this.text = '';
     }
 
@@ -124,11 +123,11 @@ class MaskedTextController extends TextEditingController {
 class MoneyMaskedTextController extends TextEditingController {
   MoneyMaskedTextController(
       {double initialValue = 0.0,
-        this.decimalSeparator = ',',
-        this.thousandSeparator = '.',
-        this.rightSymbol = '',
-        this.leftSymbol = '',
-        this.precision = 2}) {
+      this.decimalSeparator = ',',
+      this.thousandSeparator = '.',
+      this.rightSymbol = '',
+      this.leftSymbol = '',
+      this.precision = 2}) {
     _validateConfig();
 
     this.addListener(() {
@@ -154,8 +153,7 @@ class MoneyMaskedTextController extends TextEditingController {
 
     if (value.toStringAsFixed(0).length > 12) {
       valueToUse = _lastValue;
-    }
-    else {
+    } else {
       _lastValue = value;
     }
 
@@ -179,7 +177,8 @@ class MoneyMaskedTextController extends TextEditingController {
   }
 
   double get numberValue {
-    List<String> parts = _getOnlyNumbers(this.text).split('').toList(growable: true);
+    List<String> parts =
+        _getOnlyNumbers(this.text).split('').toList(growable: true);
 
     parts.insert(parts.length - precision, '.');
 
@@ -205,7 +204,8 @@ class MoneyMaskedTextController extends TextEditingController {
   }
 
   String _applyMask(double value) {
-    List<String> textRepresentation = value.toStringAsFixed(precision)
+    List<String> textRepresentation = value
+        .toStringAsFixed(precision)
         .replaceAll('.', '')
         .split('')
         .reversed
@@ -216,8 +216,7 @@ class MoneyMaskedTextController extends TextEditingController {
     for (var i = precision + 4; true; i = i + 4) {
       if (textRepresentation.length > i) {
         textRepresentation.insert(i, thousandSeparator);
-      }
-      else {
+      } else {
         break;
       }
     }

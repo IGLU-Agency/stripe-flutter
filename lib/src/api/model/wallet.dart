@@ -15,17 +15,15 @@ class Wallet {
   TokenizationMethod type;
   dynamic visaCheckout;
 
-  Wallet({
-    this.amexExpressCheckout,
-    this.applePay,
-    this.dynamicLast4,
-    this.googlePay,
-    this.masterpass,
-    this.samsungPay,
-    this.type,
-    this.visaCheckout
-  });
-  factory Wallet.fromJson(Map<String, dynamic> json) =>
-      _$WalletFromJson(json);
+  Wallet(
+      {this.amexExpressCheckout,
+      this.applePay,
+      this.dynamicLast4,
+      this.googlePay,
+      this.masterpass,
+      this.samsungPay,
+      this.type,
+      this.visaCheckout});
+  factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);
   Map<String, dynamic> toJson() => _$WalletToJson(this);
 }

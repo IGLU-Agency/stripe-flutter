@@ -11,8 +11,7 @@ class BillingDetails {
   String name;
   String phone;
 
-  BillingDetails(
-      {this.address, this.email, this.name, this.phone});
+  BillingDetails({this.address, this.email, this.name, this.phone});
   factory BillingDetails.fromJson(Map<String, dynamic> json) =>
       _$BillingDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$BillingDetailsToJson(this);

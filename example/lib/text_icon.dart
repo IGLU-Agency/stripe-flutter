@@ -84,20 +84,22 @@ class _TextIconState extends State<TextIcon> {
 
     if (widget.icon != null || widget.showLeftSpace == true) {
       var _i = Icon(
-          widget.icon,
-          color: isSelected
-              ? Theme.of(context).accentColor
-              : Theme.of(context).primaryColor,
-          size: widget.imageSize ?? 24,
-        );
-      temp.add(widget.leftIconHandler == null ? _i : GestureDetector(
-        onTapUp: (details) {
-          if (widget.leftIconHandler != null) {
-            widget.leftIconHandler(details);
-          }
-        },
-        child: _i,
-      ));
+        widget.icon,
+        color: isSelected
+            ? Theme.of(context).accentColor
+            : Theme.of(context).primaryColor,
+        size: widget.imageSize ?? 24,
+      );
+      temp.add(widget.leftIconHandler == null
+          ? _i
+          : GestureDetector(
+              onTapUp: (details) {
+                if (widget.leftIconHandler != null) {
+                  widget.leftIconHandler(details);
+                }
+              },
+              child: _i,
+            ));
       temp.add(SizedBox(width: widget.spaceBetweenLeftIconAndTitle));
     } else if (widget.showLeftSpace == true || widget.leftImage != null) {
       temp.add(widget.leftImage);
@@ -188,8 +190,8 @@ class _TextIconState extends State<TextIcon> {
                     ? Theme.of(context).accentColor.withOpacity(0.20)
                     : (isHover
                         ? Theme.of(context).dividerColor
-                        : widget.backgroundColor ?? Theme.of(context).backgroundColor
-                            .withAlpha(0)),
+                        : widget.backgroundColor ??
+                            Theme.of(context).backgroundColor.withAlpha(0)),
                 borderRadius: _radius())
             : null,
         child: Padding(

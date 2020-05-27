@@ -17,18 +17,30 @@ class BankAccount {
   String routingNumber;
   BankAccountStatus status;
 
-  BankAccount({this.accountHolderName, this.accountHolderType, this.bankName, this.country, this.currency, this.fingerprint, this.id, this.last4, this.object, this.routingNumber, this.status});
-  factory BankAccount.fromJson(Map<String, dynamic> json) => _$BankAccountFromJson(json);
+  BankAccount(
+      {this.accountHolderName,
+      this.accountHolderType,
+      this.bankName,
+      this.country,
+      this.currency,
+      this.fingerprint,
+      this.id,
+      this.last4,
+      this.object,
+      this.routingNumber,
+      this.status});
+  factory BankAccount.fromJson(Map<String, dynamic> json) =>
+      _$BankAccountFromJson(json);
   Map<String, dynamic> toJson() => _$BankAccountToJson(this);
 }
 
-enum BankAccountStatus { 
+enum BankAccountStatus {
   @JsonValue("new")
-  newS, 
+  newS,
   @JsonValue("validated")
-  validated, 
+  validated,
   @JsonValue("verified")
-  verified, 
+  verified,
   @JsonValue("verification_failed")
   verificationFailed,
   @JsonValue("errored")

@@ -22,8 +22,7 @@ class PaymentResponse {
   String methodName;
 
   PaymentResponse({this.token});
-  factory PaymentResponse.fromJson(Map<String, dynamic> json) => _$PaymentResponseFromJson(json);
+  factory PaymentResponse.fromJson(Map<String, dynamic> json) =>
+      _$PaymentResponseFromJson(json);
   Map<String, dynamic> toJson() => _$PaymentResponseToJson(this);
 }
-
-

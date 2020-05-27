@@ -15,9 +15,17 @@ class ShippingAddress {
   String sortingCode;
   String dependendLocality;
 
-  ShippingAddress({this.addressLine, this.city, this.country, this.dependendLocality, this.phone, this.postalCode, this.recipient, this.region, this.sortingCode});
-  factory ShippingAddress.fromJson(Map<String, dynamic> json) => _$ShippingAddressFromJson(json);
+  ShippingAddress(
+      {this.addressLine,
+      this.city,
+      this.country,
+      this.dependendLocality,
+      this.phone,
+      this.postalCode,
+      this.recipient,
+      this.region,
+      this.sortingCode});
+  factory ShippingAddress.fromJson(Map<String, dynamic> json) =>
+      _$ShippingAddressFromJson(json);
   Map<String, dynamic> toJson() => _$ShippingAddressToJson(this);
 }
-
-

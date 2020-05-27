@@ -15,7 +15,15 @@ class Token {
   String type;
   bool used;
 
-  Token({this.bankAccount, this.clientIp, this.created, this.id, this.livemode, this.object, this.type, this.used});
+  Token(
+      {this.bankAccount,
+      this.clientIp,
+      this.created,
+      this.id,
+      this.livemode,
+      this.object,
+      this.type,
+      this.used});
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   Map<String, dynamic> toJson() => _$TokenToJson(this);
 }

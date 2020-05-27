@@ -30,28 +30,26 @@ class Source {
   //TODO: source_order
   dynamic sourceOrder;
 
-
-  Source({
-    this.id,
-    this.object,
-    this.amount,
-    this.clientSecret,
-    this.created,
-    this.currency,
-    this.flow,
-    this.livemode,
-    this.metadata,
-    this.owner,
-    this.receiver,
-    this.statementDescriptor,
-    this.status,
-    this.type,
-    this.usage,
-    this.codeVerification,
-    this.customer,
-    this.redirect,
-    this.sourceOrder
-  });
+  Source(
+      {this.id,
+      this.object,
+      this.amount,
+      this.clientSecret,
+      this.created,
+      this.currency,
+      this.flow,
+      this.livemode,
+      this.metadata,
+      this.owner,
+      this.receiver,
+      this.statementDescriptor,
+      this.status,
+      this.type,
+      this.usage,
+      this.codeVerification,
+      this.customer,
+      this.redirect,
+      this.sourceOrder});
   factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
   Map<String, dynamic> toJson() => _$SourceToJson(this);
 }
@@ -60,24 +58,24 @@ enum SourceStatus {
   @JsonValue("canceled")
   canceled,
   @JsonValue("chargeable")
-  chargeable, 
+  chargeable,
   @JsonValue("consumed")
-  consumed, 
+  consumed,
   @JsonValue("failed")
-  failed, 
+  failed,
   @JsonValue("pending")
-  pending, 
+  pending,
 }
 
 enum SourceType {
   @JsonValue("ach_credit_tranfer")
   achCreditTranfer,
   @JsonValue("ach_debit")
-  achDebit, 
+  achDebit,
   @JsonValue("alipay")
-  alipay, 
+  alipay,
   @JsonValue("bancontact")
-  bancontact, 
+  bancontact,
   @JsonValue("card")
   card,
   @JsonValue("card_present")
@@ -101,5 +99,5 @@ enum SourceType {
   @JsonValue("three_d_secure")
   threeDSecure,
   @JsonValue("wechat")
-  wechat, 
+  wechat,
 }

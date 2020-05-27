@@ -90,7 +90,6 @@ class PaymentIntent {
   Map<String, dynamic> toJson() => _$PaymentIntentToJson(this);
 }
 
-
 enum PaymentIntentStatus {
   @JsonValue("requires_payment_method")
   requiresPaymentMethod,

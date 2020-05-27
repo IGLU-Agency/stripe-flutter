@@ -18,9 +18,11 @@ class SeparatorLine extends StatelessWidget {
       child: Container(
         height: 1.0,
         color: Theme.of(context).dividerColor,
-        margin: margin ??  EdgeInsets.fromLTRB(16, 0, 0, 0),
+        margin: margin ?? EdgeInsets.fromLTRB(16, 0, 0, 0),
       ),
-      color: this.backgroundColor != null ? this.backgroundColor : Theme.of(context).backgroundColor,
+      color: this.backgroundColor != null
+          ? this.backgroundColor
+          : Theme.of(context).backgroundColor,
     );
   }
 }
