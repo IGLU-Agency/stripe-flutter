@@ -31,3 +31,4 @@ export 'src/api/model/transfer.dart';
 export 'src/api/model/wallet.dart';
 
 export 'src/ui/components/payment_card_text_field.dart';
+export 'src/ui/model/card.dart';
