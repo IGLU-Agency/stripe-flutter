@@ -1,7 +1,7 @@
-import 'package:stripeflutter/src/utils/card_utils.dart';
-import 'package:stripeflutter/src/utils/json_utils.dart';
-import 'package:stripeflutter/src/utils/model_utils.dart';
-import 'package:stripeflutter/src/utils/text_utils.dart';
+import 'package:flutter_payments_stripe_sdk/src/utils/card_utils.dart';
+import 'package:flutter_payments_stripe_sdk/src/utils/json_utils.dart';
+import 'package:flutter_payments_stripe_sdk/src/utils/model_utils.dart';
+import 'package:flutter_payments_stripe_sdk/src/utils/text_utils.dart';
 
 class StripeCard {
   static const String AMERICAN_EXPRESS = "American Express";

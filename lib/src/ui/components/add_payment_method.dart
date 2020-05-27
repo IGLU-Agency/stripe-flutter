@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stripeflutter/src/ui/components/payment_card_text_field.dart';
+import 'package:flutter_payments_stripe_sdk/src/ui/components/payment_card_text_field.dart';
 
 class AddPaymentMethod extends StatefulWidget {
   final bool showBillingAddressBox;

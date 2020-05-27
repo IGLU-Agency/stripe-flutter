@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stripeflutter/src/api/model/card_checks.dart';
-import 'package:stripeflutter/src/api/model/three_d_secure_usage.dart';
-import 'package:stripeflutter/src/api/model/wallet.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/card_checks.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/three_d_secure_usage.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/wallet.dart';
 
 part 'card.g.dart';
 

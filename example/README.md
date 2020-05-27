@@ -1,4 +1,4 @@
-# stripeflutterexample
+# flutter_payments_stripe_sdkexample
 
 Stripe Flutter example
 

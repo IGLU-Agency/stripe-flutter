@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.iaconellisoftware.stripeflutterexample">
+    package="com.iaconellisoftware.flutter_payments_stripe_sdkexample">
     <!-- Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->

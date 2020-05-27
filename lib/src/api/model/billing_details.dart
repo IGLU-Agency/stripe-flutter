@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stripeflutter/src/api/model/address.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/address.dart';
 
 part 'billing_details.g.dart';
 

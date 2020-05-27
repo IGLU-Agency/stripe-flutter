@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stripeflutter/src/api/model/au_becs_debit.dart';
-import 'package:stripeflutter/src/api/model/billing_details.dart';
-import 'package:stripeflutter/src/api/model/card.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/au_becs_debit.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/billing_details.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/card.dart';
 
 part 'payment_method.g.dart';
 

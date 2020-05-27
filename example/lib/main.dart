@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:stripeflutter/stripeflutter.dart';
+import 'package:flutter_payments_stripe_sdk/flutter_payments_stripe_sdk.dart';
 import 'dart:convert' show json;
 import 'package:http/http.dart' as http;
-import 'package:stripeflutterexample/separator_line.dart';
+import 'package:flutter_payments_stripe_sdkexample/separator_line.dart';
 import 'dart:convert' as convert;
 
-import 'package:stripeflutterexample/text_icon.dart';
+import 'package:flutter_payments_stripe_sdkexample/text_icon.dart';
 
 void main() {
   runApp(MyApp());

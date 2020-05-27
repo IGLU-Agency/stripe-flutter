@@ -4,7 +4,7 @@ import 'dart:convert' show json;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../../stripeflutter.dart';
+import '../../flutter_payments_stripe_sdk.dart';
 
 const String defaultApiVersion = "2020-03-02";
 

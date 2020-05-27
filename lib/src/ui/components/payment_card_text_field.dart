@@ -92,7 +92,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
       height: 24,
       width: 32,
       child: Image(
-        image: AssetImage(card.asCardImage(), package: "stripeflutter"),
+        image: AssetImage(card.asCardImage(), package: "flutter_payments_stripe_sdk"),
       ),
     );
 
@@ -117,7 +117,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
           height: 24,
           width: 32,
           child: Image(
-            image: AssetImage(card.asCardImage(), package: "stripeflutter"),
+            image: AssetImage(card.asCardImage(), package: "flutter_payments_stripe_sdk"),
           ),
         );
       });
@@ -149,7 +149,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
               child: Image(
                 image: AssetImage(
                   'lib/assets/images/stp_card_error.png',
-                  package: "stripeflutter",
+                  package: "flutter_payments_stripe_sdk",
                 ),
               ),
             );
@@ -178,7 +178,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
             child: Image(
               image: AssetImage(
                 'lib/assets/images/stp_card_error.png',
-                package: "stripeflutter",
+                package: "flutter_payments_stripe_sdk",
               ),
             ),
           );
@@ -190,7 +190,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
             height: 24,
             width: 32,
             child: Image(
-              image: AssetImage(card.asCardImage(), package: "stripeflutter"),
+              image: AssetImage(card.asCardImage(), package: "flutter_payments_stripe_sdk"),
             ),
           );
         });
@@ -227,7 +227,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
           width: 32,
           child: Image(
             image: AssetImage('lib/assets/images/stp_card_cvc.png',
-                package: "stripeflutter"),
+                package: "flutter_payments_stripe_sdk"),
           ),
         );
       });
@@ -241,7 +241,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
             child: Image(
               image: AssetImage(
                 'lib/assets/images/stp_card_error.png',
-                package: "stripeflutter",
+                package: "flutter_payments_stripe_sdk",
               ),
             ),
           );
@@ -253,7 +253,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
             height: 24,
             width: 32,
             child: Image(
-              image: AssetImage(card.asCardImage(), package: "stripeflutter"),
+              image: AssetImage(card.asCardImage(), package: "flutter_payments_stripe_sdk"),
             ),
           );
         });
@@ -523,7 +523,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
           height: 24,
           width: 32,
           child: Image(
-            image: AssetImage(card.asCardImage(), package: "stripeflutter"),
+            image: AssetImage(card.asCardImage(), package: "flutter_payments_stripe_sdk"),
           ));
     });
     if (_cardNumberController.text.length < 4) {

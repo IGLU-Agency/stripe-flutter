@@ -1,6 +1,6 @@
-import 'package:stripeflutter/src/api/error.dart';
-import 'package:stripeflutter/src/api/model/payment_method.dart';
-import 'package:stripeflutter/src/api/model/payment_method_data.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/error.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/payment_method.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/payment_method_data.dart';
 
 import '../api_handler.dart';
 import '../stripe.dart';

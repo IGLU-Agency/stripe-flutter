@@ -1,4 +1,4 @@
-name: stripeflutterexample
+name: flutter_payments_stripe_sdkexample
 description: Stripe Flutter example
 
 # The following line prevents the package from being accidentally published to
@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  stripeflutter:
+  flutter_payments_stripe_sdk:
     path: ../
 
 

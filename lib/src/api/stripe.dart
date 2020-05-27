@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:stripeflutter/src/api/model/intent_action.dart';
-import 'package:stripeflutter/src/api/resources/payment_intents.dart';
-import 'package:stripeflutter/src/api/resources/payment_methods.dart';
-import 'package:stripeflutter/src/api/resources/setup_intents.dart';
-import 'package:stripeflutter/src/utils/json_utils.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/intent_action.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/resources/payment_intents.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/resources/payment_methods.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/resources/setup_intents.dart';
+import 'package:flutter_payments_stripe_sdk/src/utils/json_utils.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 

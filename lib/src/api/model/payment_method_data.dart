@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stripeflutter/src/api/model/billing_details.dart';
-import 'package:stripeflutter/src/api/model/payment_method.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/billing_details.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/payment_method.dart';
 
 part 'payment_method_data.g.dart';
 

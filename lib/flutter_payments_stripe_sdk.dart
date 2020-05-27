@@ -1,4 +1,4 @@
-library stripeflutter;
+library flutter_payments_stripe_sdk;
 
 export 'src/api/stripe.dart';
 export 'src/api/error.dart';

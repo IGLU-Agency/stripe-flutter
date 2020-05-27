@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stripeflutter/src/api/model/bank_account.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/bank_account.dart';
 
 part 'token.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stripeflutter/src/api/model/confirm_intent_option.dart';
-import 'package:stripeflutter/src/api/model/payment_method.dart';
-import 'package:stripeflutter/src/api/model/shipping.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/confirm_intent_option.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/payment_method.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/model/shipping.dart';
 
 import 'payment_method_data.dart';
 
