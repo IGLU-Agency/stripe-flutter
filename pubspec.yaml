@@ -1,0 +1,31 @@
+name: stripeflutter
+description: Stripe Flutter SDK
+version: 1.0.0
+homepage: https://github.com/LucaIaconelli/stripe-flutter
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  http: ^0.12.1
+  url_launcher: ^5.4.7
+  uni_links: ^0.4.0
+  json_annotation: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  json_serializable: ^3.3.0
+  build_runner: ^1.0.0
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - lib/assets/
+    - lib/assets/images/
+    - lib/assets/images/2.0x/
+    - lib/assets/images/3.0x/
