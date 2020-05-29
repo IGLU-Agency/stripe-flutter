@@ -1,6 +1,6 @@
 name: flutter_payments_stripe_sdk
-description: Stripe Flutter SDK
-version: 1.0.1
+description: The Stripe Flutter SDK makes it quick and easy to build an excellent payment experience in your Flutter app
+version: 1.0.2
 homepage: https://github.com/LucaIaconelli/stripe-flutter
 
 environment:
