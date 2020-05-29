@@ -12,7 +12,7 @@ Get started with Stripe [📚 integration guides](https://stripe.com/docs/paymen
 
 **Stripe API**: If you want to use low-level APIs, use our [Stripe Dart](https://github.com/LucaIaconelli/stripe-dart).
 
-**Native UI**: We provide native screens and elements to collect payment and shipping details. For example, PaymentCardTextField is a UIView that collects and validates card details:
+**Native UI**: We provide native screens and elements to collect payment and shipping details. For example, PaymentCardTextField is a Widget that collects and validates card details.
 
 ## Contributing
 
