@@ -358,7 +358,6 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                     textInputAction: TextInputAction.next,
                     controller: _cardNumberController,
                     focusNode: _cardNumberFocus,
-                    scrollPhysics: BouncingScrollPhysics(),
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
