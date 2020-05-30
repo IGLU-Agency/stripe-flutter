@@ -28,10 +28,26 @@ class SetupIntents {
   /// Confirm a SetupIntent
   /// https://stripe.com/docs/api/setup_intents/confirm
   confirmSetupIntent(String clientSecret,
-      {ConfirmSetupIntentRequest data}) async {
+      {ConfirmSetupIntentRequest data, ConfirmSetupIntentRequestPID data1}) async {
     var params = {};
     if (data != null) {
-      params = data.toJson();
+      dynamic data1 = data;
+      var pm = await _stripe.paymentMethods.create(data.paymentMethod);
+      if (pm.runtimeType == StripeError) {
+        return pm;
+      } else if (pm.runtimeType == PaymentMethod) {
+        data1 = ConfirmSetupIntentRequestPID(
+          paymentMethod: pm.id,
+          returnUrl: data.returnUrl,
+          mandateData: data.mandateData,
+          useStripeSdk: data.useStripeSdk
+        );
+      } else {
+        return null;
+      }
+      params = data1.toJson();
+    } else if (data1 != null) {
+      params = data1.toJson();
     }
     final intent = parseIdFromClientSecret(clientSecret);
     params['client_secret'] = clientSecret;
@@ -39,7 +55,6 @@ class SetupIntents {
     final path = "/setup_intents/$intent/confirm";
     var result =
         await _stripe.request(RequestMethod.post, path, params: params);
-    print(result);
     if (result.containsKey("isError") && result.containsKey("error")) {
       return StripeError.fromJson(result["error"]);
     } else {
@@ -56,4 +71,5 @@ class SetupIntents {
       }
     }
   }
+
 }

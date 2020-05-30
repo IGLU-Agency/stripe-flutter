@@ -12,6 +12,7 @@ export 'src/api/model/card.dart';
 export 'src/api/model/confirm_intent_option.dart';
 export 'src/api/model/confirm_payment_intent_request.dart';
 export 'src/api/model/confirm_setup_intent_request.dart';
+export 'src/api/model/confirm_setup_intent_request_pid.dart';
 export 'src/api/model/intent_action.dart';
 export 'src/api/model/payment_intent.dart';
 export 'src/api/model/payment_method_data.dart';

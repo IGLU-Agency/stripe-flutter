@@ -73,14 +73,30 @@ enum CardBrand {
   @JsonValue("Discover")
   discover,
   @JsonValue("JCB")
-  jcb,
+  JCB,
   @JsonValue("MasterCard")
   masterCard,
   @JsonValue("UnionPay")
   unionPay,
   @JsonValue("Visa")
-  visa,
+  Visa,
   @JsonValue("Unknown")
+  Unknown,
+  @JsonValue("amex")
+  amex,
+  @JsonValue("diners")
+  diners,
+  @JsonValue("discover")
+  discoverLowerCase,
+  @JsonValue("jcb")
+  jcb,
+  @JsonValue("mastercard")
+  mastercard,
+  @JsonValue("unionpay")
+  unionpay,
+  @JsonValue("visa")
+  visa,
+  @JsonValue("unknown")
   unknown,
 }
 

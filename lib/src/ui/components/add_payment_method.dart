@@ -132,8 +132,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
 
   /* */
 
-  _animateCardImageTo({bool front}) {
-    print(front);
+  /*_animateCardImageTo({bool front}) {
     if (front) {
       setState(() {
         _cardAnimatedWidget = SizedBox(
@@ -159,7 +158,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
         );
       });
     }
-  }
+  }*/
 
   _buildAddressBox() {
     return Container(

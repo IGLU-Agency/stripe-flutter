@@ -100,7 +100,15 @@ class _MyHomePageState extends State<MyHomePage> {
       var res = await stripe.setupIntents.confirmSetupIntent(
           setupIntentClientSecret,
           data: ConfirmSetupIntentRequest(
-              paymentMethod: testPaymentMethodID,
+              paymentMethod: PaymentMethodData(
+                type: PaymentMethodType.card,
+                card: CardMethod(
+                  cvc: "555",
+                  expMonth: 12,
+                  expYear: 24,
+                  number: "4242424242424242"
+                )
+              ),
               useStripeSdk: false,
               returnUrl: stripe.getReturnUrlForSca()));
       if (res.runtimeType == StripeError) {

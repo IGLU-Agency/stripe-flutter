@@ -124,11 +124,19 @@ const _$CardBrandEnumMap = {
   CardBrand.americanExpress: 'American Express',
   CardBrand.dinersClub: 'Diners Club',
   CardBrand.discover: 'Discover',
-  CardBrand.jcb: 'JCB',
+  CardBrand.JCB: 'JCB',
   CardBrand.masterCard: 'MasterCard',
   CardBrand.unionPay: 'UnionPay',
-  CardBrand.visa: 'Visa',
-  CardBrand.unknown: 'Unknown',
+  CardBrand.Visa: 'Visa',
+  CardBrand.Unknown: 'Unknown',
+  CardBrand.amex: 'amex',
+  CardBrand.diners: 'diners',
+  CardBrand.discoverLowerCase: 'discover',
+  CardBrand.jcb: 'jcb',
+  CardBrand.mastercard: 'mastercard',
+  CardBrand.unionpay: 'unionpay',
+  CardBrand.visa: 'visa',
+  CardBrand.unknown: 'unknown',
 };
 
 const _$FundingEnumMap = {
