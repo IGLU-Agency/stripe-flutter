@@ -71,7 +71,7 @@ enum CardBrand {
   @JsonValue("Diners Club")
   dinersClub,
   @JsonValue("Discover")
-  discover,
+  Discover,
   @JsonValue("JCB")
   JCB,
   @JsonValue("MasterCard")
@@ -87,7 +87,7 @@ enum CardBrand {
   @JsonValue("diners")
   diners,
   @JsonValue("discover")
-  discoverLowerCase,
+  discover,
   @JsonValue("jcb")
   jcb,
   @JsonValue("mastercard")
@@ -97,8 +97,15 @@ enum CardBrand {
   @JsonValue("visa")
   visa,
   @JsonValue("unknown")
-  unknown,
+  unknown
 }
+
+extension ParseToStringCardBrand on CardBrand {
+  String toValue() {
+    return this.toString().split('.').last;
+  }
+}
+
 
 enum AddressFieldCheck {
   @JsonValue("pass")

@@ -123,7 +123,7 @@ const _$AddressFieldCheckEnumMap = {
 const _$CardBrandEnumMap = {
   CardBrand.americanExpress: 'American Express',
   CardBrand.dinersClub: 'Diners Club',
-  CardBrand.discover: 'Discover',
+  CardBrand.Discover: 'Discover',
   CardBrand.JCB: 'JCB',
   CardBrand.masterCard: 'MasterCard',
   CardBrand.unionPay: 'UnionPay',
@@ -131,7 +131,7 @@ const _$CardBrandEnumMap = {
   CardBrand.Unknown: 'Unknown',
   CardBrand.amex: 'amex',
   CardBrand.diners: 'diners',
-  CardBrand.discoverLowerCase: 'discover',
+  CardBrand.discover: 'discover',
   CardBrand.jcb: 'jcb',
   CardBrand.mastercard: 'mastercard',
   CardBrand.unionpay: 'unionpay',

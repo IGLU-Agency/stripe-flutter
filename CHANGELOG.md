@@ -1,3 +1,9 @@
+## [1.0.7] - 31/05/2020
+
+* returnCardImage utils added
+* AssetImage get brandImage added inside StripeCard
+* replace brand string with CardBrand enum
+
 ## [1.0.6] - 30/05/2020
 
 * Bug fix

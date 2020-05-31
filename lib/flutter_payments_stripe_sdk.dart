@@ -3,6 +3,8 @@ library flutter_payments_stripe_sdk;
 export 'src/api/stripe.dart';
 export 'src/api/error.dart';
 
+export 'src/utils/image_utils.dart';
+
 export 'src/api/model/address.dart';
 export 'src/api/model/au_becs_debit.dart';
 export 'src/api/model/bank_account.dart';

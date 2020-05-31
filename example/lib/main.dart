@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: PaymentCardTextField(onCardChanged: (card) {
-                    print(card.toMap());
+                    print(card.toPaymentMethod());
                   }),
                 );
               }

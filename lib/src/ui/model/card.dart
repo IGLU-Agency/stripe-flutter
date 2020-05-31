@@ -1,18 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_payments_stripe_sdk/flutter_payments_stripe_sdk.dart';
 import 'package:flutter_payments_stripe_sdk/src/utils/card_utils.dart';
-import 'package:flutter_payments_stripe_sdk/src/utils/json_utils.dart';
 import 'package:flutter_payments_stripe_sdk/src/utils/model_utils.dart';
 import 'package:flutter_payments_stripe_sdk/src/utils/text_utils.dart';
 
 class StripeCard {
-  static const String AMERICAN_EXPRESS = "American Express";
-  static const String DISCOVER = "Discover";
-  static const String JCB = "JCB";
-  static const String DINERS_CLUB = "Diners Club";
-  static const String VISA = "Visa";
-  static const String MASTERCARD = "MasterCard";
-  static const String UNIONPAY = "UnionPay";
-  static const String UNKNOWN = "Unknown";
-
   static const int CVC_LENGTH_AMERICAN_EXPRESS = 4;
   static const int CVC_LENGTH_COMMON = 3;
 
@@ -21,8 +13,7 @@ class StripeCard {
   static const String FUNDING_PREPAID = "prepaid";
   static const String FUNDING_UNKNOWN = "unknown";
 
-  ///
-  // Based on http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
+  /// Based on http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
   static const List<String> PREFIXES_AMERICAN_EXPRESS = ["34", "37"];
   static const List<String> PREFIXES_DISCOVER = ["60", "64", "65"];
   static const List<String> PREFIXES_JCB = ["35"];
@@ -79,33 +70,6 @@ class StripeCard {
   static const int MAX_LENGTH_AMERICAN_EXPRESS = 15;
   static const int MAX_LENGTH_DINERS_CLUB = 14;
 
-  static const String VALUE_CARD = "card";
-
-  static const String FIELD_OBJECT = "object";
-  static const String FIELD_NUMBER = "number";
-  static const String FIELD_CVC = "cvc";
-  static const String FIELD_ADDRESS_CITY = "address_city";
-  static const String FIELD_ADDRESS_COUNTRY = "address_country";
-  static const String FIELD_ADDRESS_LINE1 = "address_line1";
-  static const String FIELD_ADDRESS_LINE1_CHECK = "address_line1_check";
-  static const String FIELD_ADDRESS_LINE2 = "address_line2";
-  static const String FIELD_ADDRESS_STATE = "address_state";
-  static const String FIELD_ADDRESS_ZIP = "address_zip";
-  static const String FIELD_ADDRESS_ZIP_CHECK = "address_zip_check";
-  static const String FIELD_BRAND = "brand";
-  static const String FIELD_COUNTRY = "country";
-  static const String FIELD_CURRENCY = "currency";
-  static const String FIELD_CUSTOMER = "customer";
-  static const String FIELD_CVC_CHECK = "cvc_check";
-  static const String FIELD_EXP_MONTH = "exp_month";
-  static const String FIELD_EXP_YEAR = "exp_year";
-  static const String FIELD_FINGERPRINT = "fingerprint";
-  static const String FIELD_FUNDING = "funding";
-  static const String FIELD_NAME = "name";
-  static const String FIELD_LAST4 = "last4";
-  static const String FIELD_ID = "id";
-  static const String FIELD_TOKENIZATION_METHOD = "tokenization_method";
-
   String number;
   String cvc;
   int expMonth;
@@ -143,7 +107,7 @@ class StripeCard {
     this.addressZipCheck,
     this.addressCountry,
     this.last4,
-    String brand = 'Unknown',
+    CardBrand brand = CardBrand.unknown,
     this.funding,
     this.fingerprint,
     this.country,
@@ -153,12 +117,20 @@ class StripeCard {
     this.id,
   });
 
-  String get brand {
+  CardBrand get brand {
     if (!isBlank(number)) {
       return getPossibleCardType(number);
     } else {
-      return UNKNOWN;
+      return CardBrand.unknown;
     }
+  }
+
+  AssetImage get brandImage {
+    String imgString = returnCardImage(brand);
+    if (imgString != null) {
+      return AssetImage(imgString, package: "flutter_payments_stripe_sdk");
+    }
+    return null;
   }
 
   /// Checks whether {@code this} represents a valid card.
@@ -192,10 +164,10 @@ class StripeCard {
       return false;
     }
     String cvcValue = cvc.trim();
-    String updatedType = brand;
+    CardBrand updatedType = brand;
     bool validLength =
         (updatedType == null && cvcValue.length >= 3 && cvcValue.length <= 4) ||
-            (AMERICAN_EXPRESS == updatedType && cvcValue.length == 4) ||
+            (CardBrand.amex == updatedType && cvcValue.length == 4) ||
             cvcValue.length == 3;
 
     return ModelUtils.isWholePositiveNumber(cvcValue) && validLength;
@@ -209,99 +181,74 @@ class StripeCard {
     }
   }
 
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = {
-      FIELD_NUMBER: number,
-      FIELD_CVC: cvc,
-      FIELD_NAME: name,
-      FIELD_ADDRESS_CITY: addressCity,
-      FIELD_ADDRESS_COUNTRY: addressCountry,
-      FIELD_ADDRESS_LINE1: addressLine1,
-      FIELD_ADDRESS_LINE1_CHECK: addressLine1Check,
-      FIELD_ADDRESS_LINE2: addressLine2,
-      FIELD_ADDRESS_STATE: addressState,
-      FIELD_ADDRESS_ZIP: addressZip,
-      FIELD_ADDRESS_ZIP_CHECK: addressZipCheck,
-      FIELD_CURRENCY: currency,
-      FIELD_COUNTRY: country,
-      FIELD_CUSTOMER: customerId,
-      FIELD_EXP_MONTH: expMonth,
-      FIELD_EXP_YEAR: expYear,
-      FIELD_FINGERPRINT: fingerprint,
-      FIELD_FUNDING: funding,
-      FIELD_ID: id,
-      FIELD_LAST4: last4,
-      FIELD_OBJECT: VALUE_CARD
-    };
-
-    removeNullAndEmptyParams(map);
-    return map;
-  }
-
-  Map<String, dynamic> toPaymentMethod() {
-    Map<String, dynamic> map = {
-      'type': 'card',
-      'card': {
-        FIELD_NUMBER: number,
-        FIELD_CVC: cvc,
-        FIELD_EXP_MONTH: expMonth,
-        FIELD_EXP_YEAR: expYear,
-      },
-      'billing_details': {
-        FIELD_NAME: name,
-      }
-    };
-
-    removeNullAndEmptyParams(map);
-    return map;
+  PaymentMethodData toPaymentMethod() {
+    return PaymentMethodData(
+      type: PaymentMethodType.card,
+      card: CardMethod(
+        cvc: cvc,
+        expMonth: expMonth,
+        expYear: expYear,
+        number: number
+      ),
+      billingDetails: BillingDetails(
+        address: Address(
+          city: addressCity,
+          country: addressCountry,
+          line1: addressLine1,
+          line2: addressLine2,
+          postalCode: addressZip,
+          state: addressCountry,
+        ),
+        name: name
+      )
+    );
   }
 
   /// Converts an unchecked String value to a {@link CardBrand} or {@code null}.
   ///
   /// @param possibleCardType a String that might match a {@link CardBrand} or be empty.
   /// @return {@code null} if the input is blank, else the appropriate {@link CardBrand}.
-  static String asCardBrand(String possibleCardType) {
-    if (possibleCardType == null || possibleCardType.trim().isEmpty) {
+  static CardBrand asCardBrand(CardBrand possibleCardType) {
+    if (possibleCardType == null) {
       return null;
     }
-
-    if (StripeCard.AMERICAN_EXPRESS == possibleCardType) {
-      return StripeCard.AMERICAN_EXPRESS;
-    } else if (StripeCard.MASTERCARD == possibleCardType) {
-      return StripeCard.MASTERCARD;
-    } else if (StripeCard.DINERS_CLUB == possibleCardType) {
-      return StripeCard.DINERS_CLUB;
-    } else if (StripeCard.DISCOVER == possibleCardType) {
-      return StripeCard.DISCOVER;
-    } else if (StripeCard.JCB == possibleCardType) {
-      return StripeCard.JCB;
-    } else if (StripeCard.VISA == possibleCardType) {
-      return StripeCard.VISA;
-    } else if (StripeCard.UNIONPAY == possibleCardType) {
-      return StripeCard.UNIONPAY;
+    if (CardBrand.amex == possibleCardType) {
+      return CardBrand.amex;
+    } else if (CardBrand.mastercard == possibleCardType) {
+      return CardBrand.mastercard;
+    } else if (CardBrand.diners == possibleCardType) {
+      return CardBrand.diners;
+    } else if (CardBrand.discover == possibleCardType) {
+      return CardBrand.discover;
+    } else if (CardBrand.jcb == possibleCardType) {
+      return CardBrand.jcb;
+    } else if (CardBrand.visa == possibleCardType) {
+      return CardBrand.visa;
+    } else if (CardBrand.unionpay == possibleCardType) {
+      return CardBrand.unionpay;
     } else {
-      return StripeCard.UNKNOWN;
+      return CardBrand.unknown;
     }
   }
 
   String asCardMask() {
-    if (brand == null || brand.trim().isEmpty) {
+    if (brand == null) {
       return null;
     }
 
-    if (StripeCard.AMERICAN_EXPRESS == brand) {
+    if (CardBrand.amex == brand) {
       return '0000 000000 00000';
-    } else if (StripeCard.MASTERCARD == brand) {
+    } else if (CardBrand.mastercard == brand) {
       return '0000 0000 0000 0000';
-    } else if (StripeCard.DINERS_CLUB == brand) {
+    } else if (CardBrand.diners == brand) {
       return '0000 0000 0000 00';
-    } else if (StripeCard.DISCOVER == brand) {
+    } else if (CardBrand.discover == brand) {
       return '0000 0000 0000 0000';
-    } else if (StripeCard.JCB == brand) {
+    } else if (CardBrand.jcb == brand) {
       return '0000 0000 0000 0000';
-    } else if (StripeCard.VISA == brand) {
+    } else if (CardBrand.visa == brand) {
       return '0000 0000 0000 0000';
-    } else if (StripeCard.UNIONPAY == brand) {
+    } else if (CardBrand.unionpay == brand) {
       return '0000 0000 0000 0000';
     } else {
       return '0000 0000 0000 0000';
@@ -309,51 +256,7 @@ class StripeCard {
   }
 
   String asCardImage() {
-    if (brand == null || brand.trim().isEmpty) {
-      return null;
-    }
-
-    if (StripeCard.AMERICAN_EXPRESS == brand) {
-      return 'lib/assets/images/stp_card_amex.png';
-    } else if (StripeCard.MASTERCARD == brand) {
-      return 'lib/assets/images/stp_card_mastercard.png';
-    } else if (StripeCard.DINERS_CLUB == brand) {
-      return 'lib/assets/images/stp_card_diners.png';
-    } else if (StripeCard.DISCOVER == brand) {
-      return 'lib/assets/images/stp_card_discover.png';
-    } else if (StripeCard.JCB == brand) {
-      return 'lib/assets/images/stp_card_jcb.png';
-    } else if (StripeCard.VISA == brand) {
-      return 'lib/assets/images/stp_card_visa.png';
-    } else if (StripeCard.UNIONPAY == brand) {
-      return 'lib/assets/images/stp_card_unionpay_en.png';
-    } else {
-      return 'lib/assets/images/stp_card_unknown.png';
-    }
-  }
-
-  String asCardBackImage() {
-    if (brand == null || brand.trim().isEmpty) {
-      return null;
-    }
-
-    if (StripeCard.AMERICAN_EXPRESS == brand) {
-      return StripeCard.AMERICAN_EXPRESS;
-    } else if (StripeCard.MASTERCARD == brand) {
-      return StripeCard.MASTERCARD;
-    } else if (StripeCard.DINERS_CLUB == brand) {
-      return StripeCard.DINERS_CLUB;
-    } else if (StripeCard.DISCOVER == brand) {
-      return StripeCard.DISCOVER;
-    } else if (StripeCard.JCB == brand) {
-      return StripeCard.JCB;
-    } else if (StripeCard.VISA == brand) {
-      return StripeCard.VISA;
-    } else if (StripeCard.UNIONPAY == brand) {
-      return StripeCard.UNIONPAY;
-    } else {
-      return StripeCard.UNKNOWN;
-    }
+    return returnCardImage(brand);
   }
 
   /// Converts an unchecked String value to a {@link FundingType} or {@code null}.

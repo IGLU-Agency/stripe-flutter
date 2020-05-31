@@ -1,3 +1,4 @@
+import 'package:flutter_payments_stripe_sdk/flutter_payments_stripe_sdk.dart';
 import 'package:flutter_payments_stripe_sdk/src/ui/model/card.dart';
 
 import 'model_utils.dart';
@@ -71,28 +72,28 @@ bool isValidLuhnNumber(String cardNumber) {
 /// @param cardBrand a {@link CardBrand} used to get the correct size
 /// @return {@code true} if the card number is the correct length for the assumed brand
 
-bool isValidCardLength(String cardNumber, {String cardBrand}) {
+bool isValidCardLength(String cardNumber, {CardBrand cardBrand}) {
   if (cardBrand == null) {
     cardBrand = getPossibleCardType(cardNumber, shouldNormalize: false);
   }
-  if (cardNumber == null || StripeCard.UNKNOWN == cardBrand) {
+  if (cardNumber == null || CardBrand.unknown == cardBrand) {
     return false;
   }
 
   int length = cardNumber.length;
   switch (cardBrand) {
-    case StripeCard.AMERICAN_EXPRESS:
+    case CardBrand.amex:
       return length == LENGTH_AMERICAN_EXPRESS;
-    case StripeCard.DINERS_CLUB:
+    case CardBrand.diners:
       return length == LENGTH_DINERS_CLUB;
     default:
       return length == LENGTH_COMMON_CARD;
   }
 }
 
-String getPossibleCardType(String cardNumber, {bool shouldNormalize = true}) {
+CardBrand getPossibleCardType(String cardNumber, {bool shouldNormalize = true}) {
   if (isBlank(cardNumber)) {
-    return StripeCard.UNKNOWN;
+    return CardBrand.unknown;
   }
 
   String spacelessCardNumber = cardNumber;
@@ -101,37 +102,37 @@ String getPossibleCardType(String cardNumber, {bool shouldNormalize = true}) {
   }
 
   if (hasAnyPrefix(spacelessCardNumber, StripeCard.PREFIXES_AMERICAN_EXPRESS)) {
-    return StripeCard.AMERICAN_EXPRESS;
+    return CardBrand.amex;
   } else if (hasAnyPrefix(spacelessCardNumber, StripeCard.PREFIXES_DISCOVER)) {
-    return StripeCard.DISCOVER;
+    return CardBrand.discover;
   } else if (hasAnyPrefix(spacelessCardNumber, StripeCard.PREFIXES_JCB)) {
-    return StripeCard.JCB;
+    return CardBrand.jcb;
   } else if (hasAnyPrefix(
       spacelessCardNumber, StripeCard.PREFIXES_DINERS_CLUB)) {
-    return StripeCard.DINERS_CLUB;
+    return CardBrand.diners;
   } else if (hasAnyPrefix(spacelessCardNumber, StripeCard.PREFIXES_VISA)) {
-    return StripeCard.VISA;
+    return CardBrand.visa;
   } else if (hasAnyPrefix(
       spacelessCardNumber, StripeCard.PREFIXES_MASTERCARD)) {
-    return StripeCard.MASTERCARD;
+    return CardBrand.mastercard;
   } else if (hasAnyPrefix(spacelessCardNumber, StripeCard.PREFIXES_UNIONPAY)) {
-    return StripeCard.UNIONPAY;
+    return CardBrand.unionpay;
   } else {
-    return StripeCard.UNKNOWN;
+    return CardBrand.unknown;
   }
 }
 
-int getLengthForBrand(String cardBrand) {
-  if (StripeCard.AMERICAN_EXPRESS == cardBrand ||
-      StripeCard.DINERS_CLUB == cardBrand) {
+int getLengthForBrand(CardBrand cardBrand) {
+  if (CardBrand.amex == cardBrand ||
+      CardBrand.diners == cardBrand) {
     return MAX_LENGTH_AMEX_DINERS;
   } else {
     return MAX_LENGTH_COMMON;
   }
 }
 
-int getLengthForCVC(String cardBrand) {
-  if (StripeCard.AMERICAN_EXPRESS == cardBrand) {
+int getLengthForCVC(CardBrand cardBrand) {
+  if (CardBrand.amex == cardBrand) {
     return CVC_LENGTH_AMERICAN_EXPRESS;
   } else {
     return CVC_LENGTH_COMMON;
