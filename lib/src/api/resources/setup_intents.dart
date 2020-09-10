@@ -28,7 +28,8 @@ class SetupIntents {
   /// Confirm a SetupIntent
   /// https://stripe.com/docs/api/setup_intents/confirm
   confirmSetupIntent(String clientSecret,
-      {ConfirmSetupIntentRequest data, ConfirmSetupIntentRequestPID data1}) async {
+      {ConfirmSetupIntentRequest data,
+      ConfirmSetupIntentRequestPID data1}) async {
     var params = {};
     if (data != null) {
       dynamic data1 = data;
@@ -37,11 +38,10 @@ class SetupIntents {
         return pm;
       } else if (pm.runtimeType == PaymentMethod) {
         data1 = ConfirmSetupIntentRequestPID(
-          paymentMethod: pm.id,
-          returnUrl: data.returnUrl,
-          mandateData: data.mandateData,
-          useStripeSdk: data.useStripeSdk
-        );
+            paymentMethod: pm.id,
+            returnUrl: data.returnUrl,
+            mandateData: data.mandateData,
+            useStripeSdk: data.useStripeSdk);
       } else {
         return null;
       }
@@ -71,5 +71,4 @@ class SetupIntents {
       }
     }
   }
-
 }

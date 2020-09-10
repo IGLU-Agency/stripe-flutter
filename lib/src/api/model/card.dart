@@ -106,7 +106,6 @@ extension ParseToStringCardBrand on CardBrand {
   }
 }
 
-
 enum AddressFieldCheck {
   @JsonValue("pass")
   pass,

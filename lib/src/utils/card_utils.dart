@@ -91,7 +91,8 @@ bool isValidCardLength(String cardNumber, {CardBrand cardBrand}) {
   }
 }
 
-CardBrand getPossibleCardType(String cardNumber, {bool shouldNormalize = true}) {
+CardBrand getPossibleCardType(String cardNumber,
+    {bool shouldNormalize = true}) {
   if (isBlank(cardNumber)) {
     return CardBrand.unknown;
   }
@@ -123,8 +124,7 @@ CardBrand getPossibleCardType(String cardNumber, {bool shouldNormalize = true}) 
 }
 
 int getLengthForBrand(CardBrand cardBrand) {
-  if (CardBrand.amex == cardBrand ||
-      CardBrand.diners == cardBrand) {
+  if (CardBrand.amex == cardBrand || CardBrand.diners == cardBrand) {
     return MAX_LENGTH_AMEX_DINERS;
   } else {
     return MAX_LENGTH_COMMON;

@@ -183,25 +183,19 @@ class StripeCard {
 
   PaymentMethodData toPaymentMethod() {
     return PaymentMethodData(
-      type: PaymentMethodType.card,
-      card: CardMethod(
-        cvc: cvc,
-        expMonth: expMonth,
-        expYear: expYear,
-        number: number
-      ),
-      billingDetails: BillingDetails(
-        address: Address(
-          city: addressCity,
-          country: addressCountry,
-          line1: addressLine1,
-          line2: addressLine2,
-          postalCode: addressZip,
-          state: addressCountry,
-        ),
-        name: name
-      )
-    );
+        type: PaymentMethodType.card,
+        card: CardMethod(
+            cvc: cvc, expMonth: expMonth, expYear: expYear, number: number),
+        billingDetails: BillingDetails(
+            address: Address(
+              city: addressCity,
+              country: addressCountry,
+              line1: addressLine1,
+              line2: addressLine2,
+              postalCode: addressZip,
+              state: addressCountry,
+            ),
+            name: name));
   }
 
   /// Converts an unchecked String value to a {@link CardBrand} or {@code null}.

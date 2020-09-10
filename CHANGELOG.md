@@ -1,3 +1,7 @@
+## [1.0.8] - 10/09/2020
+
+* changed version to 2020-08-27
+
 ## [1.0.7] - 31/05/2020
 
 * returnCardImage utils added
