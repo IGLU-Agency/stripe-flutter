@@ -118,8 +118,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                     if (widget.showBillingAddressBox)
                       _returnFieldHeader('Billing Address'),
                     SizedBox(height: 8),
-                    if (widget.showBillingAddressBox)
-                      _buildAddressBox()
+                    if (widget.showBillingAddressBox) _buildAddressBox()
                   ],
                 ),
               ),

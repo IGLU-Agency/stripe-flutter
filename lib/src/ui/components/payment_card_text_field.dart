@@ -12,6 +12,8 @@ class PaymentCardTextField extends StatefulWidget {
   final Color backgroundColor;
   final Color textColor;
   final Color hintColor;
+  final bool autoFocus;
+  final Brightness keyboardAppearance;
 
   PaymentCardTextField(
       {this.showZip = false,
@@ -20,6 +22,8 @@ class PaymentCardTextField extends StatefulWidget {
       this.errorColor = Colors.red,
       this.backgroundColor = Colors.white,
       this.hintColor,
+      this.autoFocus,
+      this.keyboardAppearance,
       this.textColor = const Color.fromRGBO(35, 35, 35, 1)});
 
   @override
@@ -359,6 +363,8 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                     onEditingComplete: () {
                       _cardNumberFocus.nextFocus();
                     },
+                    keyboardAppearance: widget.keyboardAppearance,
+                    autofocus: widget.autoFocus,
                     textInputAction: TextInputAction.next,
                     controller: _cardNumberController,
                     focusNode: _cardNumberFocus,
@@ -390,6 +396,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                     onEditingComplete: () {
                       _cardExpirationFocus.nextFocus();
                     },
+                    keyboardAppearance: widget.keyboardAppearance,
                     textInputAction: TextInputAction.next,
                     controller: _cardExpirationController,
                     textAlign: TextAlign.center,
@@ -428,6 +435,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                           FocusScope.of(context).unfocus();
                         }
                       },
+                      keyboardAppearance: widget.keyboardAppearance,
                       textInputAction: widget.showZip
                           ? TextInputAction.next
                           : TextInputAction.done,
@@ -461,6 +469,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                     onEditingComplete: () {
                       FocusScope.of(context).unfocus();
                     },
+                    keyboardAppearance: widget.keyboardAppearance,
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 15,

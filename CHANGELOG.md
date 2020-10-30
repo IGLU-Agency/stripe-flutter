@@ -1,3 +1,7 @@
+## [1.0.9] - 30/10/2020
+
+* added autoFocus and keyboardAppearance to PaymentCardTextField
+
 ## [1.0.8] - 10/09/2020
 
 * changed version to 2020-08-27
