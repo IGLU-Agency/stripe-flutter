@@ -7,8 +7,7 @@ import 'payment_method_data.dart';
 
 part 'confirm_payment_intent_request.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ConfirmPaymentIntentRequest {
   String paymentMethod;
   String receiptEmail;

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'bank_account.g.dart';
 
 @JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+    fieldRename: FieldRename.snake, explicitToJson: true)
 class BankAccount {
   String id;
   String object;

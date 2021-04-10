@@ -4,8 +4,7 @@ import 'package:flutter_payments_stripe_sdk/src/api/model/payment_method.dart';
 
 part 'payment_method_data.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class PaymentMethodData {
   PaymentMethodType type;
   BillingDetails billingDetails;
@@ -30,8 +29,7 @@ class PaymentMethodData {
   Map<String, dynamic> toJson() => _$PaymentMethodDataToJson(this);
 }
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class AuBecsDebitMethod {
   String accountNumber;
   String bsbNumber;
@@ -42,8 +40,7 @@ class AuBecsDebitMethod {
   Map<String, dynamic> toJson() => _$AuBecsDebitMethodToJson(this);
 }
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class CardMethod {
   int expMonth;
   int expYear;
@@ -56,8 +53,7 @@ class CardMethod {
   Map<String, dynamic> toJson() => _$CardMethodToJson(this);
 }
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class FpxMethod {
   String bank;
   FpxMethod({this.bank});
@@ -67,8 +63,7 @@ class FpxMethod {
   Map<String, dynamic> toJson() => _$FpxMethodToJson(this);
 }
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class IdealMethod {
   String bank;
   IdealMethod({this.bank});
@@ -78,8 +73,7 @@ class IdealMethod {
   Map<String, dynamic> toJson() => _$IdealMethodToJson(this);
 }
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class SepaDebitMethod {
   String iban;
   SepaDebitMethod({this.iban});

@@ -6,8 +6,7 @@ import 'intent_action.dart';
 
 part 'setup_intent.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class SetupIntent {
   String id;
   String object;

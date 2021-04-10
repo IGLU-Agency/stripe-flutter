@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var body = {
       "params": {"amount": "200", "currency": "eur", "customer": customerID}
     };
-    var response = await http.post(url,
+    var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: convert.json.encode(body));
     var j = json.decode(response.body);
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var body = {
       "params": {"customer": customerID}
     };
-    var response = await http.post(url,
+    var response = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: convert.json.encode(body));
     var j = json.decode(response.body);

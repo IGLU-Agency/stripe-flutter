@@ -80,7 +80,7 @@ class _TextIconState extends State<TextIcon> {
 
   List<Widget> listChildren() {
     final theme = Theme.of(context);
-    List<Widget> temp = List<Widget>();
+    List<Widget> temp = [];
 
     if (widget.icon != null || widget.showLeftSpace == true) {
       var _i = Icon(

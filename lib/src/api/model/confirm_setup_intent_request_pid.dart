@@ -2,8 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'confirm_setup_intent_request_pid.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ConfirmSetupIntentRequestPID {
   String paymentMethod;
   String returnUrl;

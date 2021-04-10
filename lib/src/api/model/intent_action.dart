@@ -4,8 +4,7 @@ import 'redirect_to_url.dart';
 
 part 'intent_action.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class IntentAction {
   RedirectToUrl redirectToUrl;
   IntentActionType type;

@@ -2,8 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'confirm_intent_option.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ConfirmIntentOption {
   bool handleActions;
 

@@ -4,8 +4,7 @@ import 'card.dart';
 
 part 'card_checks.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class CardChecks {
   AddressFieldCheck addressLine1Check;
   AddressFieldCheck addressPostalCodeCheck;

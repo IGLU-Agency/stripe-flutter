@@ -3,8 +3,7 @@ import 'package:flutter_payments_stripe_sdk/src/api/model/bank_account.dart';
 
 part 'token.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Token {
   String id;
   String object;

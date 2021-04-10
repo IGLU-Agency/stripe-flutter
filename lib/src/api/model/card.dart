@@ -5,8 +5,7 @@ import 'package:flutter_payments_stripe_sdk/src/api/model/wallet.dart';
 
 part 'card.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Card {
   String id;
   String object;

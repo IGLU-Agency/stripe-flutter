@@ -4,8 +4,7 @@ import 'reversal.dart';
 
 part 'reversals.g.dart';
 
-@JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Reversals {
   String object;
   List<Reversal> data;

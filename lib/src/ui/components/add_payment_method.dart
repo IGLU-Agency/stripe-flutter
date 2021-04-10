@@ -75,7 +75,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
           Container(
             height: 40,
             width: 100,
-            child: FlatButton(
+            child: TextButton(
               child: Text(
                 'Cancel',
                 style: TextStyle(

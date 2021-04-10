@@ -4,7 +4,7 @@ import 'package:flutter_payments_stripe_sdk/src/api/model/address.dart';
 part 'billing_details.g.dart';
 
 @JsonSerializable(
-    nullable: true, fieldRename: FieldRename.snake, explicitToJson: true)
+    fieldRename: FieldRename.snake, explicitToJson: true)
 class BillingDetails {
   Address address;
   String email;
