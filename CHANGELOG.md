@@ -1,4 +1,4 @@
-## [2.0.0] - 10/04/2021
+## [2.0.0] - 1/06/2021
 
 - null safety
 - more customization inside payment_card_text_field
