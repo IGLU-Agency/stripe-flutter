@@ -10,15 +10,15 @@ part 'payment_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class PaymentResponse {
-  Token token;
-  PaymentMethod paymentMethod;
-  Source source;
-  String payerName;
-  String payerEmail;
-  String payerPhone;
-  ShippingAddress shippingAddress;
-  ShippingOption shippingOption;
-  String methodName;
+  Token? token;
+  PaymentMethod? paymentMethod;
+  Source? source;
+  String? payerName;
+  String? payerEmail;
+  String? payerPhone;
+  ShippingAddress? shippingAddress;
+  ShippingOption? shippingOption;
+  String? methodName;
 
   PaymentResponse({this.token});
   factory PaymentResponse.fromJson(Map<String, dynamic> json) =>

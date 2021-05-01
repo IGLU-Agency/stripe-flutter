@@ -8,16 +8,17 @@ part of 'shipping_address.dart';
 
 ShippingAddress _$ShippingAddressFromJson(Map<String, dynamic> json) {
   return ShippingAddress(
-    addressLine:
-        (json['address_line'] as List)?.map((e) => e as String)?.toList(),
-    city: json['city'] as String,
-    country: json['country'] as String,
-    dependendLocality: json['dependend_locality'] as String,
-    phone: json['phone'] as String,
-    postalCode: json['postal_code'] as String,
-    recipient: json['recipient'] as String,
-    region: json['region'] as String,
-    sortingCode: json['sorting_code'] as String,
+    addressLine: (json['address_line'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    city: json['city'] as String?,
+    country: json['country'] as String?,
+    dependendLocality: json['dependend_locality'] as String?,
+    phone: json['phone'] as String?,
+    postalCode: json['postal_code'] as String?,
+    recipient: json['recipient'] as String?,
+    region: json['region'] as String?,
+    sortingCode: json['sorting_code'] as String?,
   );
 }
 

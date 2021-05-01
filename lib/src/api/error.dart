@@ -6,10 +6,10 @@ part 'error.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class StripeError extends Error {
-  StripeErrorType type;
+  StripeErrorType? type;
   var raw;
   var rawType;
-  StripeErrorCode code;
+  StripeErrorCode? code;
   var docUrl;
   var param;
   var detail;

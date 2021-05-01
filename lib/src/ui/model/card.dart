@@ -70,27 +70,27 @@ class StripeCard {
   static const int MAX_LENGTH_AMERICAN_EXPRESS = 15;
   static const int MAX_LENGTH_DINERS_CLUB = 14;
 
-  String number;
-  String cvc;
-  int expMonth;
-  int expYear;
-  String name;
-  String addressLine1;
-  String addressLine1Check;
-  String addressLine2;
-  String addressCity;
-  String addressState;
-  String addressZip;
-  String addressZipCheck;
-  String addressCountry;
-  String last4;
-  String funding;
-  String fingerprint;
-  String country;
-  String currency;
-  String customerId;
-  String cvcCheck;
-  String id;
+  String? number;
+  String? cvc;
+  int? expMonth;
+  int? expYear;
+  String? name;
+  String? addressLine1;
+  String? addressLine1Check;
+  String? addressLine2;
+  String? addressCity;
+  String? addressState;
+  String? addressZip;
+  String? addressZipCheck;
+  String? addressCountry;
+  String? last4;
+  String? funding;
+  String? fingerprint;
+  String? country;
+  String? currency;
+  String? customerId;
+  String? cvcCheck;
+  String? id;
 
   StripeCard({
     this.number,
@@ -117,7 +117,7 @@ class StripeCard {
     this.id,
   });
 
-  CardBrand get brand {
+  CardBrand? get brand {
     if (!isBlank(number)) {
       return getPossibleCardType(number);
     } else {
@@ -125,8 +125,8 @@ class StripeCard {
     }
   }
 
-  AssetImage get brandImage {
-    String imgString = returnCardImage(brand);
+  AssetImage? get brandImage {
+    String? imgString = returnCardImage(brand);
     if (imgString != null) {
       return AssetImage(imgString, package: "flutter_payments_stripe_sdk");
     }
@@ -148,6 +148,13 @@ class StripeCard {
     return isValidCardNumber(number);
   }
 
+  bool isEmpty() {
+    return (number == null || number?.isEmpty == true) &&
+        expMonth == null &&
+        expYear == null &&
+        (cvc == null || cvc?.isEmpty == true);
+  }
+
   /// Checks whether or not the {@link #expMonth} and {@link #expYear} fields represent a valid
   /// expiry date.
   ///
@@ -163,8 +170,8 @@ class StripeCard {
     if (isBlank(cvc)) {
       return false;
     }
-    String cvcValue = cvc.trim();
-    CardBrand updatedType = brand;
+    String cvcValue = cvc!.trim();
+    CardBrand? updatedType = brand;
     bool validLength =
         (updatedType == null && cvcValue.length >= 3 && cvcValue.length <= 4) ||
             (CardBrand.amex == updatedType && cvcValue.length == 4) ||
@@ -202,7 +209,7 @@ class StripeCard {
   ///
   /// @param possibleCardType a String that might match a {@link CardBrand} or be empty.
   /// @return {@code null} if the input is blank, else the appropriate {@link CardBrand}.
-  static CardBrand asCardBrand(CardBrand possibleCardType) {
+  static CardBrand? asCardBrand(CardBrand? possibleCardType) {
     if (possibleCardType == null) {
       return null;
     }
@@ -225,7 +232,7 @@ class StripeCard {
     }
   }
 
-  String asCardMask() {
+  String? asCardMask() {
     if (brand == null) {
       return null;
     }
@@ -249,7 +256,7 @@ class StripeCard {
     }
   }
 
-  String asCardImage() {
+  String? asCardImage() {
     return returnCardImage(brand);
   }
 
@@ -257,7 +264,7 @@ class StripeCard {
   ///
   /// @param possibleFundingType a String that might match a {@link FundingType} or be empty
   /// @return {@code null} if the input is blank, else the appropriate {@link FundingType}
-  static String asFundingType(String possibleFundingType) {
+  static String? asFundingType(String? possibleFundingType) {
     if (possibleFundingType == null || possibleFundingType.trim().isEmpty) {
       return null;
     }

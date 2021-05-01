@@ -7,11 +7,11 @@ part 'wallet.g.dart';
 class Wallet {
   dynamic amexExpressCheckout;
   dynamic applePay;
-  String dynamicLast4;
+  String? dynamicLast4;
   dynamic googlePay;
   dynamic masterpass;
   dynamic samsungPay;
-  TokenizationMethod type;
+  TokenizationMethod? type;
   dynamic visaCheckout;
 
   Wallet(

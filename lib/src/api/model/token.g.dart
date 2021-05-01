@@ -11,13 +11,13 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
     bankAccount: json['bank_account'] == null
         ? null
         : BankAccount.fromJson(json['bank_account'] as Map<String, dynamic>),
-    clientIp: json['client_ip'] as String,
-    created: json['created'] as int,
-    id: json['id'] as String,
-    livemode: json['livemode'] as bool,
-    object: json['object'] as String,
-    type: json['type'] as String,
-    used: json['used'] as bool,
+    clientIp: json['client_ip'] as String?,
+    created: json['created'] as int?,
+    id: json['id'] as String?,
+    livemode: json['livemode'] as bool?,
+    object: json['object'] as String?,
+    type: json['type'] as String?,
+    used: json['used'] as bool?,
   );
 }
 

@@ -4,15 +4,15 @@ part 'shipping_address.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ShippingAddress {
-  String country;
-  List<String> addressLine;
-  String region;
-  String city;
-  String postalCode;
-  String recipient;
-  String phone;
-  String sortingCode;
-  String dependendLocality;
+  String? country;
+  List<String>? addressLine;
+  String? region;
+  String? city;
+  String? postalCode;
+  String? recipient;
+  String? phone;
+  String? sortingCode;
+  String? dependendLocality;
 
   ShippingAddress(
       {this.addressLine,

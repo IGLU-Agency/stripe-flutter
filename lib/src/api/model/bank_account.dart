@@ -5,17 +5,17 @@ part 'bank_account.g.dart';
 @JsonSerializable(
     fieldRename: FieldRename.snake, explicitToJson: true)
 class BankAccount {
-  String id;
-  String object;
-  String accountHolderName;
-  String accountHolderType;
-  String bankName;
-  String country;
-  String currency;
-  String fingerprint;
-  String last4;
-  String routingNumber;
-  BankAccountStatus status;
+  String? id;
+  String? object;
+  String? accountHolderName;
+  String? accountHolderType;
+  String? bankName;
+  String? country;
+  String? currency;
+  String? fingerprint;
+  String? last4;
+  String? routingNumber;
+  BankAccountStatus? status;
 
   BankAccount(
       {this.accountHolderName,

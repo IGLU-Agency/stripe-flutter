@@ -12,7 +12,7 @@ PaymentMethodData _$PaymentMethodDataFromJson(Map<String, dynamic> json) {
         ? null
         : BillingDetails.fromJson(
             json['billing_details'] as Map<String, dynamic>),
-    metadata: json['metadata'] as Map<String, dynamic>,
+    metadata: json['metadata'] as Map<String, dynamic>?,
     type: _$enumDecodeNullable(_$PaymentMethodTypeEnumMap, json['type']),
     auBecsDebit: json['au_becs_debit'] == null
         ? null
@@ -45,36 +45,41 @@ Map<String, dynamic> _$PaymentMethodDataToJson(PaymentMethodData instance) =>
       'sepa_debit': instance.sepaDebit?.toJson(),
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$PaymentMethodTypeEnumMap = {
@@ -87,8 +92,8 @@ const _$PaymentMethodTypeEnumMap = {
 
 AuBecsDebitMethod _$AuBecsDebitMethodFromJson(Map<String, dynamic> json) {
   return AuBecsDebitMethod(
-    accountNumber: json['account_number'] as String,
-    bsbNumber: json['bsb_number'] as String,
+    accountNumber: json['account_number'] as String?,
+    bsbNumber: json['bsb_number'] as String?,
   );
 }
 
@@ -100,10 +105,10 @@ Map<String, dynamic> _$AuBecsDebitMethodToJson(AuBecsDebitMethod instance) =>
 
 CardMethod _$CardMethodFromJson(Map<String, dynamic> json) {
   return CardMethod(
-    cvc: json['cvc'] as String,
-    expMonth: json['exp_month'] as int,
-    expYear: json['exp_year'] as int,
-    number: json['number'] as String,
+    cvc: json['cvc'] as String?,
+    expMonth: json['exp_month'] as int?,
+    expYear: json['exp_year'] as int?,
+    number: json['number'] as String?,
   );
 }
 
@@ -117,7 +122,7 @@ Map<String, dynamic> _$CardMethodToJson(CardMethod instance) =>
 
 FpxMethod _$FpxMethodFromJson(Map<String, dynamic> json) {
   return FpxMethod(
-    bank: json['bank'] as String,
+    bank: json['bank'] as String?,
   );
 }
 
@@ -127,7 +132,7 @@ Map<String, dynamic> _$FpxMethodToJson(FpxMethod instance) => <String, dynamic>{
 
 IdealMethod _$IdealMethodFromJson(Map<String, dynamic> json) {
   return IdealMethod(
-    bank: json['bank'] as String,
+    bank: json['bank'] as String?,
   );
 }
 
@@ -138,7 +143,7 @@ Map<String, dynamic> _$IdealMethodToJson(IdealMethod instance) =>
 
 SepaDebitMethod _$SepaDebitMethodFromJson(Map<String, dynamic> json) {
   return SepaDebitMethod(
-    iban: json['iban'] as String,
+    iban: json['iban'] as String?,
   );
 }
 

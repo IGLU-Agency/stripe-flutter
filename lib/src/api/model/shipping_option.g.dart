@@ -8,10 +8,10 @@ part of 'shipping_option.dart';
 
 ShippingOption _$ShippingOptionFromJson(Map<String, dynamic> json) {
   return ShippingOption(
-    id: json['id'] as String,
-    amount: (json['amount'] as num)?.toDouble(),
-    detail: json['detail'] as bool,
-    label: json['label'] as String,
+    id: json['id'] as String?,
+    amount: (json['amount'] as num?)?.toDouble(),
+    detail: json['detail'] as bool?,
+    label: json['label'] as String?,
   );
 }
 

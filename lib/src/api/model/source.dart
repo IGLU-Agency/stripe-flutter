@@ -4,15 +4,15 @@ part 'source.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Source {
-  String id;
-  String object;
+  String? id;
+  String? object;
   dynamic amount;
-  String clientSecret;
-  int created;
-  String currency;
-  String flow;
-  bool livemode;
-  Map<String, dynamic> metadata;
+  String? clientSecret;
+  int? created;
+  String? currency;
+  String? flow;
+  bool? livemode;
+  Map<String, dynamic>? metadata;
   //TODO: owner
   dynamic owner;
   //TODO: redirect
@@ -20,10 +20,10 @@ class Source {
   //TODO: receiver
   dynamic receiver;
   dynamic statementDescriptor;
-  SourceStatus status;
-  SourceType type;
-  String usage;
-  String customer;
+  SourceStatus? status;
+  SourceType? type;
+  String? usage;
+  String? customer;
   //TODO: code_verification
   dynamic codeVerification;
   //TODO: source_order

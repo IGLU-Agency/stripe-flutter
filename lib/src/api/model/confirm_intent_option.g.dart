@@ -8,7 +8,7 @@ part of 'confirm_intent_option.dart';
 
 ConfirmIntentOption _$ConfirmIntentOptionFromJson(Map<String, dynamic> json) {
   return ConfirmIntentOption(
-    handleActions: json['handle_actions'] as bool,
+    handleActions: json['handle_actions'] as bool?,
   );
 }
 

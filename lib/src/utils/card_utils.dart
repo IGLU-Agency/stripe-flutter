@@ -21,8 +21,8 @@ const int MAX_LENGTH_AMEX_DINERS = 17;
 ///
 /// @param cardNumber a String that may or may not represent a valid card number
 /// @return {@code true} if and only if the input value is a valid card number
-bool isValidCardNumber(String cardNumber) {
-  String normalizedNumber = removeSpacesAndHyphens(cardNumber);
+bool isValidCardNumber(String? cardNumber) {
+  String? normalizedNumber = removeSpacesAndHyphens(cardNumber);
   return isValidLuhnNumber(normalizedNumber) &&
       isValidCardLength(normalizedNumber);
 }
@@ -32,11 +32,11 @@ bool isValidCardNumber(String cardNumber) {
 /// @param cardNumber a String that may or may not represent a valid Luhn number
 /// @return {@code true} if and only if the input value is a valid Luhn number
 
-bool isValidLuhnNumber(String cardNumber) {
+bool isValidLuhnNumber(String? cardNumber) {
   if (cardNumber == null || cardNumber.isEmpty) {
     return true;
   }
-  String normalizedNumber = removeSpacesAndHyphens(cardNumber);
+  String normalizedNumber = removeSpacesAndHyphens(cardNumber)!;
   if (normalizedNumber.length.isOdd) return true;
   bool isOdd = true;
   int sum = 0;
@@ -47,7 +47,7 @@ bool isValidLuhnNumber(String cardNumber) {
       return false;
     }
 
-    int digitInteger = getNumericValue(c);
+    int digitInteger = getNumericValue(c) ?? 0;
     isOdd = !isOdd;
 
     if (isOdd) {
@@ -72,7 +72,7 @@ bool isValidLuhnNumber(String cardNumber) {
 /// @param cardBrand a {@link CardBrand} used to get the correct size
 /// @return {@code true} if the card number is the correct length for the assumed brand
 
-bool isValidCardLength(String cardNumber, {CardBrand cardBrand}) {
+bool isValidCardLength(String? cardNumber, {CardBrand? cardBrand}) {
   if (cardBrand == null) {
     cardBrand = getPossibleCardType(cardNumber, shouldNormalize: false);
   }
@@ -91,13 +91,13 @@ bool isValidCardLength(String cardNumber, {CardBrand cardBrand}) {
   }
 }
 
-CardBrand getPossibleCardType(String cardNumber,
+CardBrand getPossibleCardType(String? cardNumber,
     {bool shouldNormalize = true}) {
   if (isBlank(cardNumber)) {
     return CardBrand.unknown;
   }
 
-  String spacelessCardNumber = cardNumber;
+  String? spacelessCardNumber = cardNumber;
   if (shouldNormalize) {
     spacelessCardNumber = removeSpacesAndHyphens(cardNumber);
   }
@@ -123,7 +123,7 @@ CardBrand getPossibleCardType(String cardNumber,
   }
 }
 
-int getLengthForBrand(CardBrand cardBrand) {
+int getLengthForBrand(CardBrand? cardBrand) {
   if (CardBrand.amex == cardBrand || CardBrand.diners == cardBrand) {
     return MAX_LENGTH_AMEX_DINERS;
   } else {
@@ -131,7 +131,7 @@ int getLengthForBrand(CardBrand cardBrand) {
   }
 }
 
-int getLengthForCVC(CardBrand cardBrand) {
+int getLengthForCVC(CardBrand? cardBrand) {
   if (CardBrand.amex == cardBrand) {
     return CVC_LENGTH_AMERICAN_EXPRESS;
   } else {
@@ -139,7 +139,7 @@ int getLengthForCVC(CardBrand cardBrand) {
   }
 }
 
-bool validateExpiryDate(int month, int year) {
+bool validateExpiryDate(int? month, int? year) {
   final now = DateTime.now();
   if (!validateExpMonth(month)) {
     return false;
@@ -147,20 +147,20 @@ bool validateExpiryDate(int month, int year) {
   if (!validateExpYear(year)) {
     return false;
   }
-  return !ModelUtils.hasMonthPassed(year, month, now);
+  return !ModelUtils.hasMonthPassed(year!, month, now);
 }
 
 /// Checks whether or not the {@link #expMonth} field is valid.
 ///
 /// @return {@code true} if valid, {@code false} otherwise.
-bool validateExpMonth(int month) {
+bool validateExpMonth(int? month) {
   return month != null && month >= 1 && month <= 12;
 }
 
 /// Checks whether or not the {@link #expYear} field is valid.
 ///
 /// @return {@code true} if valid, {@code false} otherwise.
-bool validateExpYear(int year) {
+bool validateExpYear(int? year) {
   final now = DateTime.now();
   return year != null && !ModelUtils.hasYearPassed(year, now);
 }

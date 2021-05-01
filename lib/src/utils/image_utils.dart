@@ -1,6 +1,6 @@
 import '../../flutter_payments_stripe_sdk.dart';
 
-String returnCardImage(CardBrand brand) {
+String? returnCardImage(CardBrand? brand) {
   if (brand == null) {
     return null;
   }

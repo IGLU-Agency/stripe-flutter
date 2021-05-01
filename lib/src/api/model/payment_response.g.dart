@@ -18,9 +18,9 @@ PaymentResponse _$PaymentResponseFromJson(Map<String, dynamic> json) {
     ..source = json['source'] == null
         ? null
         : Source.fromJson(json['source'] as Map<String, dynamic>)
-    ..payerName = json['payer_name'] as String
-    ..payerEmail = json['payer_email'] as String
-    ..payerPhone = json['payer_phone'] as String
+    ..payerName = json['payer_name'] as String?
+    ..payerEmail = json['payer_email'] as String?
+    ..payerPhone = json['payer_phone'] as String?
     ..shippingAddress = json['shipping_address'] == null
         ? null
         : ShippingAddress.fromJson(
@@ -29,7 +29,7 @@ PaymentResponse _$PaymentResponseFromJson(Map<String, dynamic> json) {
         ? null
         : ShippingOption.fromJson(
             json['shipping_option'] as Map<String, dynamic>)
-    ..methodName = json['method_name'] as String;
+    ..methodName = json['method_name'] as String?;
 }
 
 Map<String, dynamic> _$PaymentResponseToJson(PaymentResponse instance) =>

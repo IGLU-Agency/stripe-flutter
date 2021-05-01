@@ -8,18 +8,18 @@ part of 'setup_intent.dart';
 
 SetupIntent _$SetupIntentFromJson(Map<String, dynamic> json) {
   return SetupIntent(
-    id: json['id'] as String,
-    object: json['object'] as String,
+    id: json['id'] as String?,
+    object: json['object'] as String?,
     application: json['application'],
-    cancellationReason: json['cancellation_reason'] as String,
-    clientSecret: json['client_secret'] as String,
-    created: json['created'] as int,
+    cancellationReason: json['cancellation_reason'] as String?,
+    clientSecret: json['client_secret'] as String?,
+    created: json['created'] as int?,
     customer: json['customer'],
-    description: json['description'] as String,
+    description: json['description'] as String?,
     lastSetupError: json['last_setup_error'],
-    livemode: json['livemode'] as bool,
+    livemode: json['livemode'] as bool?,
     mandate: json['mandate'],
-    metadata: json['metadata'] as Map<String, dynamic>,
+    metadata: json['metadata'] as Map<String, dynamic>?,
     nextAction: json['next_action'] == null
         ? null
         : IntentAction.fromJson(json['next_action'] as Map<String, dynamic>),
@@ -29,9 +29,9 @@ SetupIntent _$SetupIntentFromJson(Map<String, dynamic> json) {
         ? null
         : PaymentMethodData.fromJson(
             json['payment_method_options'] as Map<String, dynamic>),
-    paymentMethodTypes: (json['payment_method_types'] as List)
+    paymentMethodTypes: (json['payment_method_types'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
     singleUseMandate: json['single_use_mandate'],
     status: _$enumDecodeNullable(_$SetupIntentStatusEnumMap, json['status']),
     usage: _$enumDecodeNullable(_$SetupFutureUsageEnumMap, json['usage']),
@@ -62,36 +62,41 @@ Map<String, dynamic> _$SetupIntentToJson(SetupIntent instance) =>
       'usage': _$SetupFutureUsageEnumMap[instance.usage],
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$SetupIntentStatusEnumMap = {

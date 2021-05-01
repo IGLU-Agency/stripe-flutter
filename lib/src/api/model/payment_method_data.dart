@@ -6,14 +6,14 @@ part 'payment_method_data.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class PaymentMethodData {
-  PaymentMethodType type;
-  BillingDetails billingDetails;
-  Map<String, dynamic> metadata;
-  AuBecsDebitMethod auBecsDebit;
-  CardMethod card;
-  FpxMethod fpx;
-  IdealMethod ideal;
-  SepaDebitMethod sepaDebit;
+  PaymentMethodType? type;
+  BillingDetails? billingDetails;
+  Map<String, dynamic>? metadata;
+  AuBecsDebitMethod? auBecsDebit;
+  CardMethod? card;
+  FpxMethod? fpx;
+  IdealMethod? ideal;
+  SepaDebitMethod? sepaDebit;
 
   PaymentMethodData(
       {this.billingDetails,
@@ -31,8 +31,8 @@ class PaymentMethodData {
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class AuBecsDebitMethod {
-  String accountNumber;
-  String bsbNumber;
+  String? accountNumber;
+  String? bsbNumber;
 
   AuBecsDebitMethod({this.accountNumber, this.bsbNumber});
   factory AuBecsDebitMethod.fromJson(Map<String, dynamic> json) =>
@@ -42,10 +42,10 @@ class AuBecsDebitMethod {
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class CardMethod {
-  int expMonth;
-  int expYear;
-  String number;
-  String cvc;
+  int? expMonth;
+  int? expYear;
+  String? number;
+  String? cvc;
 
   CardMethod({this.cvc, this.expMonth, this.expYear, this.number});
   factory CardMethod.fromJson(Map<String, dynamic> json) =>
@@ -55,7 +55,7 @@ class CardMethod {
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class FpxMethod {
-  String bank;
+  String? bank;
   FpxMethod({this.bank});
 
   factory FpxMethod.fromJson(Map<String, dynamic> json) =>
@@ -65,7 +65,7 @@ class FpxMethod {
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class IdealMethod {
-  String bank;
+  String? bank;
   IdealMethod({this.bank});
 
   factory IdealMethod.fromJson(Map<String, dynamic> json) =>
@@ -75,7 +75,7 @@ class IdealMethod {
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class SepaDebitMethod {
-  String iban;
+  String? iban;
   SepaDebitMethod({this.iban});
 
   factory SepaDebitMethod.fromJson(Map<String, dynamic> json) =>

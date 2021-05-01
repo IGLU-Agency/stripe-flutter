@@ -4,11 +4,11 @@ part 'confirm_setup_intent_request_pid.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ConfirmSetupIntentRequestPID {
-  String paymentMethod;
-  String returnUrl;
+  String? paymentMethod;
+  String? returnUrl;
   //TODO: mandate_date
-  Map<String, dynamic> mandateData;
-  bool useStripeSdk;
+  Map<String, dynamic>? mandateData;
+  bool? useStripeSdk;
 
   ConfirmSetupIntentRequestPID(
       {this.returnUrl,

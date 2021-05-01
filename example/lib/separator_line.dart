@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SeparatorLine extends StatelessWidget {
-  final EdgeInsets margin;
-  final Color backgroundColor;
+  final EdgeInsets? margin;
+  final Color? backgroundColor;
 
   const SeparatorLine({
     this.margin,
     this.backgroundColor,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

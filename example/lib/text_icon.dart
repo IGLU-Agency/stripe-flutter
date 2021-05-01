@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
 class TextIcon extends StatefulWidget {
-  final String title;
-  final IconData icon;
-  final Image leftImage;
-  final Widget leftWidget;
-  final IconData accessory;
-  final Color accessoryColor;
-  final Radio<dynamic> accessoryRadio;
-  final Widget rightWidget;
-  final Function(TapUpDetails) tapHandler;
-  final Function(TapUpDetails) leftIconHandler;
+  final String? title;
+  final IconData? icon;
+  final Image? leftImage;
+  final Widget? leftWidget;
+  final IconData? accessory;
+  final Color? accessoryColor;
+  final Radio<dynamic>? accessoryRadio;
+  final Widget? rightWidget;
+  final Function(TapUpDetails)? tapHandler;
+  final Function(TapUpDetails)? leftIconHandler;
   final bool isFirstRow;
-  final double fontSize;
-  final TextAlign titleAlign;
-  final FontWeight fontWeight;
-  final double imageSize;
+  final double? fontSize;
+  final TextAlign? titleAlign;
+  final FontWeight? fontWeight;
+  final double? imageSize;
   final bool shapedSelectedBackground;
-  final double cellHeight;
+  final double? cellHeight;
   final bool showLeftSpace;
   final bool showSelected;
   final bool updateAfterTap;
@@ -26,12 +26,12 @@ class TextIcon extends StatefulWidget {
   final bool forceIsSelected;
   final bool showBackgroundView;
   final double spaceBetweenLeftIconAndTitle;
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
   final EdgeInsets containerPadding;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   const TextIcon(
-      {Key key,
+      {Key? key,
       this.disableIsSelected = false,
       this.rightWidget,
       this.accessoryRadio,
@@ -95,29 +95,29 @@ class _TextIconState extends State<TextIcon> {
           : GestureDetector(
               onTapUp: (details) {
                 if (widget.leftIconHandler != null) {
-                  widget.leftIconHandler(details);
+                  widget.leftIconHandler!(details);
                 }
               },
               child: _i,
             ));
       temp.add(SizedBox(width: widget.spaceBetweenLeftIconAndTitle));
     } else if (widget.showLeftSpace == true || widget.leftImage != null) {
-      temp.add(widget.leftImage);
+      temp.add(widget.leftImage ?? Container());
       temp.add(SizedBox(width: widget.spaceBetweenLeftIconAndTitle));
     } else if (widget.showLeftSpace == true || widget.leftWidget != null) {
-      temp.add(widget.leftWidget);
+      temp.add(widget.leftWidget ?? Container());
       temp.add(SizedBox(width: widget.spaceBetweenLeftIconAndTitle));
     }
     if (widget.title != null) {
       temp.add(Expanded(
         child: Text(
-          widget.title,
+          widget.title!,
           maxLines: widget.maxLines,
           textAlign: widget.titleAlign ?? TextAlign.start,
           overflow: TextOverflow.ellipsis,
           textWidthBasis: TextWidthBasis.longestLine,
           style: widget.titleStyle == null
-              ? theme.textTheme.subtitle1.copyWith(
+              ? theme.textTheme.subtitle1!.copyWith(
                   fontSize: widget.fontSize ?? 16,
                   color: isSelected
                       ? Theme.of(context).accentColor
@@ -134,9 +134,9 @@ class _TextIconState extends State<TextIcon> {
         size: widget.imageSize ?? 24,
       ));
     } else if (widget.accessoryRadio != null) {
-      temp.add(widget.accessoryRadio);
+      temp.add(widget.accessoryRadio ?? Container());
     } else if (widget.rightWidget != null) {
-      temp.add(widget.rightWidget);
+      temp.add(widget.rightWidget ?? Container());
     }
     return temp;
   }
@@ -164,7 +164,7 @@ class _TextIconState extends State<TextIcon> {
       },
       onTapUp: (details) {
         if (widget.tapHandler != null) {
-          widget.tapHandler(details);
+          widget.tapHandler!(details);
         }
         setState(() {
           if (widget.showSelected) {

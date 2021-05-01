@@ -8,7 +8,7 @@ part of 'payment_method.dart';
 
 PaymentMethod _$PaymentMethodFromJson(Map<String, dynamic> json) {
   return PaymentMethod(
-    id: json['id'] as String,
+    id: json['id'] as String?,
     auBecsDebit: json['au_becs_debit'] == null
         ? null
         : AuBecsDebit.fromJson(json['au_becs_debit'] as Map<String, dynamic>),
@@ -17,18 +17,18 @@ PaymentMethod _$PaymentMethodFromJson(Map<String, dynamic> json) {
         : BillingDetails.fromJson(
             json['billing_details'] as Map<String, dynamic>),
     customer: json['customer'],
-    metadata: json['metadata'] as Map<String, dynamic>,
-    object: json['object'] as String,
+    metadata: json['metadata'] as Map<String, dynamic>?,
+    object: json['object'] as String?,
     type: _$enumDecodeNullable(_$PaymentMethodTypeEnumMap, json['type']),
   )
     ..card = json['card'] == null
         ? null
         : Card.fromJson(json['card'] as Map<String, dynamic>)
     ..cardPresent = json['card_present']
-    ..created = json['created'] as int
+    ..created = json['created'] as int?
     ..fpx = json['fpx']
     ..ideal = json['ideal']
-    ..livemode = json['livemode'] as bool
+    ..livemode = json['livemode'] as bool?
     ..sepaDebit = json['sepa_debit'];
 }
 
@@ -50,36 +50,41 @@ Map<String, dynamic> _$PaymentMethodToJson(PaymentMethod instance) =>
       'sepa_debit': instance.sepaDebit,
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$PaymentMethodTypeEnumMap = {

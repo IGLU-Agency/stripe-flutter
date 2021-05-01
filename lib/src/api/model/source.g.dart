@@ -8,23 +8,23 @@ part of 'source.dart';
 
 Source _$SourceFromJson(Map<String, dynamic> json) {
   return Source(
-    id: json['id'] as String,
-    object: json['object'] as String,
+    id: json['id'] as String?,
+    object: json['object'] as String?,
     amount: json['amount'],
-    clientSecret: json['client_secret'] as String,
-    created: json['created'] as int,
-    currency: json['currency'] as String,
-    flow: json['flow'] as String,
-    livemode: json['livemode'] as bool,
-    metadata: json['metadata'] as Map<String, dynamic>,
+    clientSecret: json['client_secret'] as String?,
+    created: json['created'] as int?,
+    currency: json['currency'] as String?,
+    flow: json['flow'] as String?,
+    livemode: json['livemode'] as bool?,
+    metadata: json['metadata'] as Map<String, dynamic>?,
     owner: json['owner'],
     receiver: json['receiver'],
     statementDescriptor: json['statement_descriptor'],
     status: _$enumDecodeNullable(_$SourceStatusEnumMap, json['status']),
     type: _$enumDecodeNullable(_$SourceTypeEnumMap, json['type']),
-    usage: json['usage'] as String,
+    usage: json['usage'] as String?,
     codeVerification: json['code_verification'],
-    customer: json['customer'] as String,
+    customer: json['customer'] as String?,
     redirect: json['redirect'],
     sourceOrder: json['source_order'],
   );
@@ -52,36 +52,41 @@ Map<String, dynamic> _$SourceToJson(Source instance) => <String, dynamic>{
       'source_order': instance.sourceOrder,
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$SourceStatusEnumMap = {

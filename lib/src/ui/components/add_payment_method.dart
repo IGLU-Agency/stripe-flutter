@@ -22,7 +22,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
   TextEditingController _stateAddressController = TextEditingController();
   TextEditingController _countryAddressController = TextEditingController();
 
-  Widget _cardAnimatedWidget;
+  Widget? _cardAnimatedWidget;
 
   @override
   void initState() {
@@ -223,9 +223,9 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
   }
 
   Widget _buildTextField({
-    String hint,
-    TextEditingController controller,
-    Function(String) onChanged,
+    String? hint,
+    TextEditingController? controller,
+    Function(String)? onChanged,
   }) {
     return Column(
       children: <Widget>[

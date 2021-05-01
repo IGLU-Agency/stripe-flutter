@@ -9,20 +9,20 @@ part 'confirm_payment_intent_request.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ConfirmPaymentIntentRequest {
-  String paymentMethod;
-  String receiptEmail;
-  SetupFutureUsage setupFutureUsage;
-  Shipping shipping;
-  String returnUrl;
-  PaymentMethodData paymentMethodOptions;
-  String mandate;
-  bool offSession;
-  bool savePaymentMethod;
-  List<PaymentMethodType> paymentMethodTypes;
-  bool useStripeSdk;
+  String? paymentMethod;
+  String? receiptEmail;
+  SetupFutureUsage? setupFutureUsage;
+  Shipping? shipping;
+  String? returnUrl;
+  PaymentMethodData? paymentMethodOptions;
+  String? mandate;
+  bool? offSession;
+  bool? savePaymentMethod;
+  List<PaymentMethodType?>? paymentMethodTypes;
+  bool? useStripeSdk;
   //TODO: mandate_date
-  Map<String, dynamic> mandateData;
-  ConfirmIntentOption options;
+  Map<String, dynamic>? mandateData;
+  ConfirmIntentOption? options;
 
   ConfirmPaymentIntentRequest(
       {this.returnUrl,

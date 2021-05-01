@@ -8,16 +8,16 @@ part of 'bank_account.dart';
 
 BankAccount _$BankAccountFromJson(Map<String, dynamic> json) {
   return BankAccount(
-    accountHolderName: json['account_holder_name'] as String,
-    accountHolderType: json['account_holder_type'] as String,
-    bankName: json['bank_name'] as String,
-    country: json['country'] as String,
-    currency: json['currency'] as String,
-    fingerprint: json['fingerprint'] as String,
-    id: json['id'] as String,
-    last4: json['last4'] as String,
-    object: json['object'] as String,
-    routingNumber: json['routing_number'] as String,
+    accountHolderName: json['account_holder_name'] as String?,
+    accountHolderType: json['account_holder_type'] as String?,
+    bankName: json['bank_name'] as String?,
+    country: json['country'] as String?,
+    currency: json['currency'] as String?,
+    fingerprint: json['fingerprint'] as String?,
+    id: json['id'] as String?,
+    last4: json['last4'] as String?,
+    object: json['object'] as String?,
+    routingNumber: json['routing_number'] as String?,
     status: _$enumDecodeNullable(_$BankAccountStatusEnumMap, json['status']),
   );
 }
@@ -37,36 +37,41 @@ Map<String, dynamic> _$BankAccountToJson(BankAccount instance) =>
       'status': _$BankAccountStatusEnumMap[instance.status],
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$BankAccountStatusEnumMap = {

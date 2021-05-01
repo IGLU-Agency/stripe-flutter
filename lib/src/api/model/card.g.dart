@@ -8,31 +8,31 @@ part of 'card.dart';
 
 Card _$CardFromJson(Map<String, dynamic> json) {
   return Card(
-    addressCity: json['address_city'] as String,
-    addressCountry: json['address_country'] as String,
-    addressLine1: json['address_line1'] as String,
+    addressCity: json['address_city'] as String?,
+    addressCountry: json['address_country'] as String?,
+    addressLine1: json['address_line1'] as String?,
     addressLine1Check: _$enumDecodeNullable(
         _$AddressFieldCheckEnumMap, json['address_line1_check']),
-    addressLine2: json['address_line2'] as String,
-    addressState: json['address_state'] as String,
-    addressZip: json['address_zip'] as String,
+    addressLine2: json['address_line2'] as String?,
+    addressState: json['address_state'] as String?,
+    addressZip: json['address_zip'] as String?,
     addressZipCheck: _$enumDecodeNullable(
         _$AddressFieldCheckEnumMap, json['address_zip_check']),
     brand: _$enumDecodeNullable(_$CardBrandEnumMap, json['brand']),
-    id: json['id'] as String,
-    object: json['object'] as String,
-    country: json['country'] as String,
-    currency: json['currency'] as String,
+    id: json['id'] as String?,
+    object: json['object'] as String?,
+    country: json['country'] as String?,
+    currency: json['currency'] as String?,
     cvcCheck:
         _$enumDecodeNullable(_$AddressFieldCheckEnumMap, json['cvc_check']),
-    dynamicLast4: json['dynamic_last4'] as String,
-    expMonth: json['exp_month'] as int,
-    expYear: json['exp_year'] as int,
-    fingerprint: json['fingerprint'] as String,
+    dynamicLast4: json['dynamic_last4'] as String?,
+    expMonth: json['exp_month'] as int?,
+    expYear: json['exp_year'] as int?,
+    fingerprint: json['fingerprint'] as String?,
     funding: _$enumDecodeNullable(_$FundingEnumMap, json['funding']),
-    last4: json['last4'] as String,
-    metadata: json['metadata'] as Map<String, dynamic>,
-    name: json['name'] as String,
+    last4: json['last4'] as String?,
+    metadata: json['metadata'] as Map<String, dynamic>?,
+    name: json['name'] as String?,
     tokenizationMethod: _$enumDecodeNullable(
         _$TokenizationMethodEnumMap, json['tokenization_method']),
   )
@@ -81,36 +81,41 @@ Map<String, dynamic> _$CardToJson(Card instance) => <String, dynamic>{
       'wallet': instance.wallet?.toJson(),
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AddressFieldCheckEnumMap = {

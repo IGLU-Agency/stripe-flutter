@@ -4,10 +4,10 @@ part 'shipping_option.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ShippingOption {
-  String id;
-  String label;
-  bool detail;
-  double amount;
+  String? id;
+  String? label;
+  bool? detail;
+  double? amount;
 
   ShippingOption({this.id, this.amount, this.detail, this.label});
   factory ShippingOption.fromJson(Map<String, dynamic> json) =>

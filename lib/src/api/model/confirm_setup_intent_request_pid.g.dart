@@ -9,10 +9,10 @@ part of 'confirm_setup_intent_request_pid.dart';
 ConfirmSetupIntentRequestPID _$ConfirmSetupIntentRequestPIDFromJson(
     Map<String, dynamic> json) {
   return ConfirmSetupIntentRequestPID(
-    returnUrl: json['return_url'] as String,
-    mandateData: json['mandate_data'] as Map<String, dynamic>,
-    paymentMethod: json['payment_method'] as String,
-    useStripeSdk: json['use_stripe_sdk'] as bool,
+    returnUrl: json['return_url'] as String?,
+    mandateData: json['mandate_data'] as Map<String, dynamic>?,
+    paymentMethod: json['payment_method'] as String?,
+    useStripeSdk: json['use_stripe_sdk'] as bool?,
   );
 }
 

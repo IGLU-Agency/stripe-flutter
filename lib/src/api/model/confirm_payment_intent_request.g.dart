@@ -9,26 +9,26 @@ part of 'confirm_payment_intent_request.dart';
 ConfirmPaymentIntentRequest _$ConfirmPaymentIntentRequestFromJson(
     Map<String, dynamic> json) {
   return ConfirmPaymentIntentRequest(
-    returnUrl: json['return_url'] as String,
-    mandateData: json['mandate_data'] as Map<String, dynamic>,
-    paymentMethod: json['payment_method'] as String,
+    returnUrl: json['return_url'] as String?,
+    mandateData: json['mandate_data'] as Map<String, dynamic>?,
+    paymentMethod: json['payment_method'] as String?,
     paymentMethodOptions: json['payment_method_options'] == null
         ? null
         : PaymentMethodData.fromJson(
             json['payment_method_options'] as Map<String, dynamic>),
-    mandate: json['mandate'] as String,
-    offSession: json['off_session'] as bool,
-    paymentMethodTypes: (json['payment_method_types'] as List)
+    mandate: json['mandate'] as String?,
+    offSession: json['off_session'] as bool?,
+    paymentMethodTypes: (json['payment_method_types'] as List<dynamic>?)
         ?.map((e) => _$enumDecodeNullable(_$PaymentMethodTypeEnumMap, e))
-        ?.toList(),
-    receiptEmail: json['receipt_email'] as String,
-    savePaymentMethod: json['save_payment_method'] as bool,
+        .toList(),
+    receiptEmail: json['receipt_email'] as String?,
+    savePaymentMethod: json['save_payment_method'] as bool?,
     setupFutureUsage: _$enumDecodeNullable(
         _$SetupFutureUsageEnumMap, json['setup_future_usage']),
     shipping: json['shipping'] == null
         ? null
         : Shipping.fromJson(json['shipping'] as Map<String, dynamic>),
-    useStripeSdk: json['use_stripe_sdk'] as bool,
+    useStripeSdk: json['use_stripe_sdk'] as bool?,
     options: json['options'] == null
         ? null
         : ConfirmIntentOption.fromJson(json['options'] as Map<String, dynamic>),
@@ -50,42 +50,47 @@ Map<String, dynamic> _$ConfirmPaymentIntentRequestToJson(
       'save_payment_method': instance.savePaymentMethod,
       'payment_method_types': instance.paymentMethodTypes
           ?.map((e) => _$PaymentMethodTypeEnumMap[e])
-          ?.toList(),
+          .toList(),
       'use_stripe_sdk': instance.useStripeSdk,
       'mandate_data': instance.mandateData,
       'options': instance.options?.toJson(),
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$PaymentMethodTypeEnumMap = {

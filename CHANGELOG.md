@@ -1,3 +1,8 @@
+## [2.0.0] - 10/04/2021
+
+- null safety
+- more customization inside payment_card_text_field
+
 ## [1.1.1] - 10/04/2021
 
 - update dep

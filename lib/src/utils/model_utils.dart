@@ -5,7 +5,7 @@ class ModelUtils {
   ///
   /// @param value the input string to test
   /// @return {@code true} if the input value consists entirely of integers
-  static bool isWholePositiveNumber(String value) {
+  static bool isWholePositiveNumber(String? value) {
     return value != null && isDigitsOnly(value);
   }
 
@@ -16,13 +16,13 @@ class ModelUtils {
   /// @param now the current time
   /// @return {@code true} if the input time has passed the specified current time,
   ///  {@code false} otherwise.
-  static bool hasMonthPassed(int year, int month, DateTime now) {
+  static bool hasMonthPassed(int year, int? month, DateTime now) {
     if (hasYearPassed(year, now)) {
       return true;
     }
 
     // Expires at end of specified month
-    return normalizeYear(year, now) == now.year && month < now.month;
+    return normalizeYear(year, now) == now.year && month! < now.month;
   }
 
   /// Determines whether or not the input year has already passed.

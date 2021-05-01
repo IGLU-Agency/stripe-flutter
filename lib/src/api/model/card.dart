@@ -7,34 +7,34 @@ part 'card.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Card {
-  String id;
-  String object;
-  String addressCity;
-  String addressCountry;
-  String addressLine1;
-  AddressFieldCheck addressLine1Check;
-  String addressLine2;
-  String addressState;
-  String addressZip;
-  AddressFieldCheck addressZipCheck;
-  CardBrand brand;
-  String country;
-  String currency;
-  AddressFieldCheck cvcCheck;
-  String dynamicLast4;
-  int expMonth;
-  int expYear;
-  String fingerprint;
-  Funding funding;
-  String last4;
-  Map<String, dynamic> metadata;
-  String name;
-  TokenizationMethod tokenizationMethod;
-  CardChecks checks;
+  String? id;
+  String? object;
+  String? addressCity;
+  String? addressCountry;
+  String? addressLine1;
+  AddressFieldCheck? addressLine1Check;
+  String? addressLine2;
+  String? addressState;
+  String? addressZip;
+  AddressFieldCheck? addressZipCheck;
+  CardBrand? brand;
+  String? country;
+  String? currency;
+  AddressFieldCheck? cvcCheck;
+  String? dynamicLast4;
+  int? expMonth;
+  int? expYear;
+  String? fingerprint;
+  Funding? funding;
+  String? last4;
+  Map<String, dynamic>? metadata;
+  String? name;
+  TokenizationMethod? tokenizationMethod;
+  CardChecks? checks;
   //TODO: generated_from
   dynamic generatedFrom;
-  ThreeDSecureUsage threeDSecureUsage;
-  Wallet wallet;
+  ThreeDSecureUsage? threeDSecureUsage;
+  Wallet? wallet;
 
   Card(
       {this.addressCity,

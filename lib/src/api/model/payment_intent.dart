@@ -10,42 +10,42 @@ part 'payment_intent.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class PaymentIntent {
-  String id;
-  String object;
-  int amount;
-  int amountCapturable;
-  int amountReceived;
+  String? id;
+  String? object;
+  int? amount;
+  int? amountCapturable;
+  int? amountReceived;
   dynamic application;
   dynamic applicationFeeAmount;
   dynamic canceledAt;
   dynamic cancellationReason;
-  String captureMethod;
+  String? captureMethod;
   //TODO: CHARGES
   dynamic charges;
-  String clientSecret;
-  String confirmationMethod;
-  int created;
-  String currency;
+  String? clientSecret;
+  String? confirmationMethod;
+  int? created;
+  String? currency;
   dynamic customer;
-  String description;
+  String? description;
   dynamic invoice;
   dynamic lastPaymentError;
-  bool livemode;
-  Map<String, dynamic> metadata;
-  IntentAction nextAction;
+  bool? livemode;
+  Map<String, dynamic>? metadata;
+  IntentAction? nextAction;
   dynamic onBehalfOf;
   dynamic paymentMethod;
-  PaymentMethodData paymentMethodOptions;
-  List<String> paymentMethodTypes;
-  String receiptEmail;
+  PaymentMethodData? paymentMethodOptions;
+  List<String>? paymentMethodTypes;
+  String? receiptEmail;
   dynamic review;
-  SetupFutureUsage setupFutureUsage;
-  Shipping shipping;
+  SetupFutureUsage? setupFutureUsage;
+  Shipping? shipping;
   dynamic statementDescriptor;
   dynamic statementDescriptorSuffix;
-  PaymentIntentStatus status;
-  Transfer transferData;
-  String transferGroup;
+  PaymentIntentStatus? status;
+  Transfer? transferData;
+  String? transferGroup;
 
   PaymentIntent({
     this.id,

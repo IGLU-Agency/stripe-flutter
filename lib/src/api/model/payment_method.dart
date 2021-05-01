@@ -7,19 +7,19 @@ part 'payment_method.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class PaymentMethod {
-  String id;
-  BillingDetails billingDetails;
+  String? id;
+  BillingDetails? billingDetails;
   dynamic customer;
-  Map<String, dynamic> metadata;
-  PaymentMethodType type;
-  String object;
-  AuBecsDebit auBecsDebit;
-  Card card;
+  Map<String, dynamic>? metadata;
+  PaymentMethodType? type;
+  String? object;
+  AuBecsDebit? auBecsDebit;
+  Card? card;
   dynamic cardPresent;
-  int created;
+  int? created;
   dynamic fpx;
   dynamic ideal;
-  bool livemode;
+  bool? livemode;
   dynamic sepaDebit;
 
   PaymentMethod(

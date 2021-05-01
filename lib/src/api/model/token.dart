@@ -5,14 +5,14 @@ part 'token.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Token {
-  String id;
-  String object;
-  BankAccount bankAccount;
-  String clientIp;
-  int created;
-  bool livemode;
-  String type;
-  bool used;
+  String? id;
+  String? object;
+  BankAccount? bankAccount;
+  String? clientIp;
+  int? created;
+  bool? livemode;
+  String? type;
+  bool? used;
 
   Token(
       {this.bankAccount,

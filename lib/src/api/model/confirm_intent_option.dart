@@ -4,7 +4,7 @@ part 'confirm_intent_option.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class ConfirmIntentOption {
-  bool handleActions;
+  bool? handleActions;
 
   ConfirmIntentOption({this.handleActions});
   factory ConfirmIntentOption.fromJson(Map<String, dynamic> json) =>

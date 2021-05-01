@@ -9,13 +9,13 @@ part of 'confirm_setup_intent_request.dart';
 ConfirmSetupIntentRequest _$ConfirmSetupIntentRequestFromJson(
     Map<String, dynamic> json) {
   return ConfirmSetupIntentRequest(
-    returnUrl: json['return_url'] as String,
-    mandateData: json['mandate_data'] as Map<String, dynamic>,
+    returnUrl: json['return_url'] as String?,
+    mandateData: json['mandate_data'] as Map<String, dynamic>?,
     paymentMethod: json['payment_method'] == null
         ? null
         : PaymentMethodData.fromJson(
             json['payment_method'] as Map<String, dynamic>),
-    useStripeSdk: json['use_stripe_sdk'] as bool,
+    useStripeSdk: json['use_stripe_sdk'] as bool?,
   );
 }
 

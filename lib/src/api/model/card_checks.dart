@@ -6,9 +6,9 @@ part 'card_checks.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class CardChecks {
-  AddressFieldCheck addressLine1Check;
-  AddressFieldCheck addressPostalCodeCheck;
-  AddressFieldCheck cvcCheck;
+  AddressFieldCheck? addressLine1Check;
+  AddressFieldCheck? addressPostalCodeCheck;
+  AddressFieldCheck? cvcCheck;
 
   CardChecks(
       {this.addressLine1Check, this.addressPostalCodeCheck, this.cvcCheck});

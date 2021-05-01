@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 GlobalKey loadingGlobalKey = GlobalKey(debugLabel: "loadingController");
 
 dismissLoading() {
-  if (loadingGlobalKey != null && loadingGlobalKey.currentContext != null) {
-    if (Navigator.canPop(loadingGlobalKey.currentContext)) {
-      Navigator.pop(loadingGlobalKey.currentContext);
+  if (loadingGlobalKey.currentContext != null) {
+    if (Navigator.canPop(loadingGlobalKey.currentContext!)) {
+      Navigator.pop(loadingGlobalKey.currentContext!);
     }
   }
 }
 
 presentLoading(BuildContext context,
-    {bool barrierDismissible,
-    Color backgroundColor,
-    double width,
-    double height,
-    List<BoxShadow> boxShadow,
-    BoxShape shape,
-    BorderRadiusGeometry borderRadius,
-    double strokeWidth}) {
+    {bool? barrierDismissible,
+    Color? backgroundColor,
+    double? width,
+    double? height,
+    List<BoxShadow>? boxShadow,
+    BoxShape? shape,
+    BorderRadiusGeometry? borderRadius,
+    double? strokeWidth}) {
   showDialog(
       context: context,
       barrierDismissible: barrierDismissible ?? false,

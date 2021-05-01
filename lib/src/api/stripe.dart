@@ -11,10 +11,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'api_handler.dart';
 
-typedef Future<dynamic> IntentProvider(Uri uri);
+typedef Future<dynamic> IntentProvider(Uri? uri);
 
 class Stripe {
-  static Stripe _instance;
+  static Stripe? _instance;
 
   final StripeApiHandler _apiHandler;
 
@@ -23,11 +23,11 @@ class Stripe {
   final String apiVersion;
   final SupportLocale locale;
 
-  String _returnUrlForSca;
+  String? _returnUrlForSca;
 
-  PaymentIntents paymentIntents;
-  PaymentMethods paymentMethods;
-  SetupIntents setupIntents;
+  PaymentIntents? paymentIntents;
+  late PaymentMethods paymentMethods;
+  SetupIntents? setupIntents;
 
   /// Creates a new [Stripe] object. Use this constructor if you wish to handle the instance of this class by yourself.
   /// Alternatively, use [Stripe.init] to create a singleton and access it through [Stripe.instance].
@@ -44,8 +44,8 @@ class Stripe {
   Stripe(this.publishableKey,
       {this.apiVersion = defaultApiVersion,
       this.locale = SupportLocale.auto,
-      String stripeAccount,
-      String returnUrlForSca})
+      String? stripeAccount,
+      String? returnUrlForSca})
       : _apiHandler =
             StripeApiHandler(stripeAccount: stripeAccount, locale: locale) {
     _validateKey(publishableKey, stripeAccount);
@@ -72,8 +72,8 @@ class Stripe {
   /// and "ios/Runner/Info.plist" configuration.
   static void init(String publishableKey,
       {String apiVersion = defaultApiVersion,
-      String stripeAccount,
-      String returnUrlForSca}) {
+      String? stripeAccount,
+      String? returnUrlForSca}) {
     if (_instance == null) {
       _instance = Stripe(publishableKey,
           apiVersion: apiVersion,
@@ -84,7 +84,7 @@ class Stripe {
 
   /// Access the singleton instance of [Stripe].
   /// Throws an [Exception] if [Stripe.init] hasn't been called previously.
-  static Stripe get instance {
+  static Stripe? get instance {
     if (_instance == null) {
       throw Exception(
           "Attempted to get singleton instance of StripeApi without initialization");
@@ -94,8 +94,8 @@ class Stripe {
 
   /// Validates the received [publishableKey] and throws a [Exception] if an
   /// invalid key has been submitted.
-  static void _validateKey(String publishableKey, String stripeAccount) {
-    if (publishableKey == null || publishableKey.isEmpty) {
+  static void _validateKey(String publishableKey, String? stripeAccount) {
+    if (publishableKey.isEmpty) {
       throw Exception("Invalid Publishable Key: " +
           "You must use a valid publishable key to create a token.  " +
           "For more info, see https://stripe.com/docs/stripe.js.");
@@ -105,8 +105,8 @@ class Stripe {
     }
   }
 
-  Future<Map<String, dynamic>> request(RequestMethod method, String path,
-      {Map<String, dynamic> params}) {
+  Future<Map<String, dynamic>?> request(RequestMethod method, String path,
+      {required Map<String, dynamic> params}) {
     removeNullAndEmptyParams(params);
     return _apiHandler.request(method, path, publishableKey, defaultApiVersion,
         params: params);
@@ -121,12 +121,12 @@ class Stripe {
 
   Future<dynamic> authenticateIntent(
       IntentAction action, IntentProvider callback) async {
-    final url = action.redirectToUrl.url;
-    final returnUrl = Uri.parse(action.redirectToUrl.returnUrl);
+    final url = action.redirectToUrl!.url!;
+    final returnUrl = Uri.parse(action.redirectToUrl!.returnUrl!);
     final completer = Completer<dynamic>();
-    StreamSubscription sub;
-    sub = getUriLinksStream().listen((Uri uri) async {
-      if (uri.scheme == returnUrl.scheme &&
+    late StreamSubscription sub;
+    sub = uriLinkStream.listen((Uri? uri) async {
+      if (uri!.scheme == returnUrl.scheme &&
           uri.host == returnUrl.host &&
           uri.queryParameters['requestId'] ==
               returnUrl.queryParameters['requestId']) {

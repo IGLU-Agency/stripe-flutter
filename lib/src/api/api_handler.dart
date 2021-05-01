@@ -33,23 +33,23 @@ class StripeApiHandler {
 
   final http.Client _client = http.Client();
 
-  final String stripeAccount;
-  final SupportLocale locale;
+  final String? stripeAccount;
+  final SupportLocale? locale;
 
   StripeApiHandler({this.stripeAccount, this.locale});
 
-  Future<Map<String, dynamic>> request(
+  Future<Map<String, dynamic>?> request(
       RequestMethod method, String path, String key, String apiVersion,
-      {final Map<String, dynamic> params}) {
+      {final Map<String, dynamic>? params}) {
     final options = RequestOptions(
         key: key, apiVersion: apiVersion, stripeAccount: stripeAccount);
     return _getStripeResponse(method, liveApiPath + path, options,
         params: params);
   }
 
-  Future<Map<String, dynamic>> _getStripeResponse(
+  Future<Map<String, dynamic>?> _getStripeResponse(
       RequestMethod method, final String url, final RequestOptions options,
-      {Map<String, dynamic> params}) async {
+      {Map<String, dynamic>? params}) async {
     final headers = _headers(options: options);
 
     http.Response response;
@@ -60,19 +60,21 @@ class StripeApiHandler {
         if (params != null && params.isNotEmpty) {
           fUrl = "$url?${_encodeMap(params)}";
         }
-        response = await _client.get(Uri.parse(fUrl), headers: headers);
+        response = await _client.get(Uri.parse(fUrl),
+            headers: headers as Map<String, String>?);
         break;
 
       case RequestMethod.post:
         response = await _client.post(
           Uri.parse(url),
-          headers: headers,
+          headers: headers as Map<String, String>?,
           body: params != null ? _urlEncodeMap(params) : null,
         );
         break;
 
       case RequestMethod.delete:
-        response = await _client.delete(Uri.parse(url), headers: headers);
+        response = await _client.delete(Uri.parse(url),
+            headers: headers as Map<String, String>?);
         break;
       default:
         throw Exception("Request Method: $method not implemented");
@@ -80,7 +82,7 @@ class StripeApiHandler {
 
     final requestId = response.headers[headerKeyRequestID];
     final statusCode = response.statusCode;
-    Map<String, dynamic> resp;
+    Map<String, dynamic>? resp;
     try {
       resp = json.decode(response.body);
     } catch (error) {
@@ -94,7 +96,7 @@ class StripeApiHandler {
       };
     }
     if (statusCode < 200 || statusCode >= 300) {
-      final Map<String, dynamic> errBody = resp[fieldError];
+      final Map<String, dynamic> errBody = resp![fieldError];
       errBody["requestId"] = requestId;
       return {"isError": true, "error": errBody};
     } else {
@@ -105,8 +107,8 @@ class StripeApiHandler {
   ///
   ///
   ///
-  static Map<String, String> _headers({RequestOptions options}) {
-    final Map<String, String> headers = Map();
+  static Map<String, String?> _headers({RequestOptions? options}) {
+    final Map<String, String?> headers = Map();
     headers["Accept-Charset"] = "UTF-8";
     headers["Accept"] = "application/json";
     headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -126,9 +128,7 @@ class StripeApiHandler {
     headers["X-Stripe-Client-User-Agent"] = json.encode(propertyMap);
 
     if (options != null) {
-      if (options.apiVersion != null) {
-        headers["Stripe-Version"] = options.apiVersion;
-      }
+      headers["Stripe-Version"] = options.apiVersion;
 
       if (options.stripeAccount != null) {
         headers["Stripe-Account"] = options.stripeAccount;
@@ -180,13 +180,13 @@ class RequestOptions {
   static const String TYPE_JSON = "json_data";
 
   final String apiVersion;
-  final String guid;
-  final String key;
-  final String requestType;
-  final String stripeAccount;
+  final String? guid;
+  final String? key;
+  final String? requestType;
+  final String? stripeAccount;
 
   RequestOptions({
-    @required this.apiVersion,
+    required this.apiVersion,
     this.guid,
     this.key,
     this.requestType,

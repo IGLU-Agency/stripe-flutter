@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -35,8 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var rows = ["Create a payment intent", "Create a setup intent"];
   //TODO: INSERT YOUR API KEY
   var stripe = Stripe("pk_test_...");
-  var clientSecret = "";
-  var setupIntentClientSecret = "";
+  String? clientSecret = "";
+  String? setupIntentClientSecret = "";
   //TODO: INSERT YOUR BACKED URL
   var backendUrl = "";
   //TODO: INSERT A CUSTOMER ID
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     if (item == "Create a payment intent") {
       await startCheckout();
-      var res = await stripe.paymentIntents.confirmPaymentIntent(clientSecret,
+      var res = await stripe.paymentIntents?.confirmPaymentIntent(clientSecret!,
           data: ConfirmPaymentIntentRequest(
               paymentMethod: testPaymentMethodID,
               returnUrl: stripe.getReturnUrlForSca(),
@@ -97,8 +97,8 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     } else if (item == "Create a setup intent") {
       await startSetupIntent();
-      var res = await stripe.setupIntents.confirmSetupIntent(
-          setupIntentClientSecret,
+      var res = await stripe.setupIntents?.confirmSetupIntent(
+          setupIntentClientSecret!,
           data: ConfirmSetupIntentRequest(
               paymentMethod: PaymentMethodData(
                   type: PaymentMethodType.card,
@@ -123,32 +123,51 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('Stripe Flutter SDK Example'),
       ),
-      body: Padding(
-          padding: EdgeInsets.all(0.0),
-          child: ListView.separated(
-            itemBuilder: (context, index) {
-              if (index == rows.length) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: PaymentCardTextField(onCardChanged: (card) {
-                    print(card.toPaymentMethod());
-                  }),
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Padding(
+            padding: EdgeInsets.all(0.0),
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                if (index == rows.length) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                    child: PaymentCardTextField(
+                      border: (status, card) {
+                        if (card.isEmpty()) {
+                          return Border.all(color: Colors.grey);
+                        } else if (status ==
+                            PaymentCardTextFieldStatus.success) {
+                          return Border.all(color: Colors.green);
+                        } else {
+                          return Border.all(color: Colors.red);
+                        }
+                      },
+                      onCardChanged: (card) {
+                        print(card.toPaymentMethod());
+                      },
+                      showShadow: false,
+                    ),
+                  );
+                }
+                var item = rows[index];
+                return TextIcon(
+                  title: item,
+                  shapedSelectedBackground: false,
+                  tapHandler: (d) {
+                    performAction(item);
+                  },
                 );
-              }
-              var item = rows[index];
-              return TextIcon(
-                title: item,
-                shapedSelectedBackground: false,
-                tapHandler: (d) {
-                  performAction(item);
-                },
-              );
-            },
-            separatorBuilder: (context, index) {
-              return SeparatorLine(margin: EdgeInsets.fromLTRB(20, 0, 0, 0));
-            },
-            itemCount: rows.length + 1,
-          )),
+              },
+              separatorBuilder: (context, index) {
+                return SeparatorLine(margin: EdgeInsets.fromLTRB(20, 0, 0, 0));
+              },
+              itemCount: rows.length + 1,
+            )),
+      ),
     );
   }
 }
