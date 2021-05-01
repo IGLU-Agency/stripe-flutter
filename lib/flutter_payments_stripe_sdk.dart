@@ -35,3 +35,19 @@ export 'src/api/model/wallet.dart';
 
 export 'src/ui/components/payment_card_text_field.dart';
 export 'src/ui/model/card.dart';
+
+/////
+
+import 'dart:async';
+
+import 'package:flutter/services.dart';
+
+class FlutterPaymentsStripeSdk {
+  static const MethodChannel _channel =
+      const MethodChannel('flutter_payments_stripe_sdk');
+
+  static Future<String> get platformVersion async {
+    final String version = await _channel.invokeMethod('getPlatformVersion');
+    return version;
+  }
+}

@@ -23,6 +23,13 @@ dev_dependencies:
 
 
 flutter:
+  plugin:
+    platforms:
+      android:
+        package: it.iaconelli.flutter_payments_stripe_sdk
+        pluginClass: FlutterPaymentsStripeSdkPlugin
+      ios:
+        pluginClass: FlutterPaymentsStripeSdkPlugin
   uses-material-design: true
   assets:
     - lib/assets/

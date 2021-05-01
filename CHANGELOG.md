@@ -2,6 +2,7 @@
 
 - null safety
 - more customization inside payment_card_text_field
+- added specific ios and android plugins (first attempt)
 
 ## [1.1.1] - 10/04/2021
 
