@@ -5,7 +5,6 @@ import '../model/card.dart';
 import 'masked_text_controller.dart';
 
 class PaymentCardTextField extends StatefulWidget {
-  final bool showZip;
   final Function(StripeCard)? onCardChanged;
   final Color primaryColor;
   final Color errorColor;
@@ -16,12 +15,11 @@ class PaymentCardTextField extends StatefulWidget {
   final Brightness? keyboardAppearance;
 
   final String? cardHintText;
-  final String? cvvHintText;
+  final String? cvcHintText;
   final String? expHintText;
-  final String? zipHintText;
   final TextStyle? hintStyle;
 
-  final TextStyle? style;
+  final TextStyle? Function(PaymentCardTextFieldStatus, StripeCard)? style;
 
   final String Function(PaymentCardTextFieldError)? validationMessage;
   final Widget Function(PaymentCardTextFieldError)? validationIcon;
@@ -42,7 +40,6 @@ class PaymentCardTextField extends StatefulWidget {
   final bool showValidityWidget;
 
   PaymentCardTextField({
-    this.showZip = false,
     this.onCardChanged,
     this.primaryColor = Colors.blue,
     this.errorColor = Colors.red,
@@ -51,9 +48,8 @@ class PaymentCardTextField extends StatefulWidget {
     this.autoFocus = false,
     this.keyboardAppearance,
     this.textColor = const Color.fromRGBO(35, 35, 35, 1),
-    this.zipHintText,
     this.cardHintText,
-    this.cvvHintText,
+    this.cvcHintText,
     this.expHintText,
     this.hintStyle,
     this.style,
@@ -80,21 +76,17 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
   MaskedTextController? _cardNumberController;
   MaskedTextController _cardExpirationController =
       MaskedTextController(mask: '00/00');
-  MaskedTextController _cardCVVController = MaskedTextController(mask: '000');
-  TextEditingController _cardZipController =
-      MaskedTextController(mask: '000000');
+  MaskedTextController _cardCVCController = MaskedTextController(mask: '000');
 
   StripeCard card = StripeCard();
 
   FocusNode _cardNumberFocus = FocusNode();
   FocusNode _cardExpirationFocus = FocusNode();
-  FocusNode _cardCVVFocus = FocusNode();
-  FocusNode _cardZipFocus = FocusNode();
+  FocusNode _cardCVCFocus = FocusNode();
 
   double? _cardNumberWidth;
   double? _cardExpirationWidth;
-  double? _cardCVVWidth;
-  double? _cardZipWidth;
+  double? _cardCVCWidth;
   late double fullWidth;
 
   Widget? _animatedCardWidget;
@@ -111,14 +103,14 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
   double validityAlpha = 0;
 
   PaymentCardTextFieldStatus status = PaymentCardTextFieldStatus.success;
+  PaymentCardTextFieldError? error;
 
   @override
   void dispose() {
     super.dispose();
     _cardNumberFocus.dispose();
     _cardExpirationFocus.dispose();
-    _cardCVVFocus.dispose();
-    _cardZipFocus.dispose();
+    _cardCVCFocus.dispose();
   }
 
   @override
@@ -127,20 +119,15 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
 
     themeColor = widget.primaryColor;
 
-    if (widget.showZip) {
-      sizeConfig = 0;
-    }
-
     translator.remove('*');
 
     _cardNumberController = MaskedTextController(
         mask: '0000 0000 0000 0000', translator: translator);
 
-    _cardCVVController.addListener(_onCardCVVChanged);
+    _cardCVCController.addListener(_onCardCVCFocusChanged);
     _cardNumberFocus.addListener(_onCardNumberFocusChanged);
     _cardExpirationFocus.addListener(_onCardExpirationFocusChanged);
-    _cardCVVFocus.addListener(_onCardCVVFocusChanged);
-    _cardZipFocus.addListener(_onCardZipFocusChanged);
+    _cardCVCFocus.addListener(_onCardCVCFocusChanged);
 
     _animatedCardWidget = Container(
       key: ValueKey(card.brand),
@@ -152,18 +139,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
       ),
     );
 
-    _animatedMessageWidget = Container(
-      key: ValueKey(1),
-      height: 24,
-      width: 24,
-      child: widget.validationIcon != null
-          ? widget.validationIcon!(PaymentCardTextFieldError.cardValid)
-          : Icon(
-              Icons.check_circle,
-              color: widget.primaryColor,
-              size: 16,
-            ),
-    );
+    _animatedMessageWidget = Container();
   }
 
   @override
@@ -237,13 +213,15 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                     onEditingComplete: () {
                       _cardNumberFocus.nextFocus();
                     },
+                    cursorColor: themeColor,
                     keyboardAppearance: widget.keyboardAppearance,
                     autofocus: widget.autoFocus,
                     textInputAction: TextInputAction.next,
                     controller: _cardNumberController,
                     focusNode: _cardNumberFocus,
-                    style: widget.style ??
-                        TextStyle(
+                    style: widget.style != null
+                        ? widget.style!(status, card)
+                        : TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
                             color: widget.textColor),
@@ -271,13 +249,15 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                     onEditingComplete: () {
                       _cardExpirationFocus.nextFocus();
                     },
+                    cursorColor: themeColor,
                     keyboardAppearance: widget.keyboardAppearance,
                     textInputAction: TextInputAction.next,
                     controller: _cardExpirationController,
                     textAlign: TextAlign.center,
                     focusNode: _cardExpirationFocus,
-                    style: widget.style ??
-                        TextStyle(
+                    style: widget.style != null
+                        ? widget.style!(status, card)
+                        : TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
                             color: widget.textColor),
@@ -297,68 +277,36 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                   },
                   padding: EdgeInsets.symmetric(horizontal: 4),
                   duration: Duration(milliseconds: 150),
-                  width: _cardCVVWidth,
+                  width: _cardCVCWidth,
                   child: Align(
                     alignment: Alignment.center,
                     child: TextFormField(
                       onChanged: (val) {
-                        _onCardCVVChanged();
+                        _onCardCVCChanged();
                       },
                       onEditingComplete: () {
-                        if (widget.showZip) {
-                          _cardCVVFocus.nextFocus();
-                        } else {
-                          FocusScope.of(context).unfocus();
-                        }
+                        FocusScope.of(context).unfocus();
                       },
                       keyboardAppearance: widget.keyboardAppearance,
-                      textInputAction: widget.showZip
-                          ? TextInputAction.next
-                          : TextInputAction.done,
-                      focusNode: _cardCVVFocus,
-                      controller: _cardCVVController,
+                      textInputAction: TextInputAction.done,
+                      cursorColor: themeColor,
+                      focusNode: _cardCVCFocus,
+                      controller: _cardCVCController,
                       textAlign: TextAlign.center,
-                      style: widget.style ??
-                          TextStyle(
+                      style: widget.style != null
+                          ? widget.style!(status, card)
+                          : TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
                               color: widget.textColor),
                       decoration: InputDecoration.collapsed(
-                        hintText: widget.cvvHintText ?? 'CVV',
+                        hintText: widget.cvcHintText ?? 'CVC',
                         hintStyle: widget.hintStyle ??
                             TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 15,
                                 color: widget.hintColor),
                       ),
-                    ),
-                  ),
-                ),
-                AnimatedContainer(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  duration: Duration(milliseconds: 150),
-                  width: _cardZipWidth,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.done,
-                    focusNode: _cardZipFocus,
-                    controller: _cardZipController,
-                    textAlign: TextAlign.center,
-                    onEditingComplete: () {
-                      FocusScope.of(context).unfocus();
-                    },
-                    keyboardAppearance: widget.keyboardAppearance,
-                    style: widget.style ??
-                        TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                            color: widget.textColor),
-                    decoration: InputDecoration.collapsed(
-                      hintText: widget.zipHintText ?? 'ZIP',
-                      hintStyle: widget.hintStyle ??
-                          TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
-                              color: widget.hintColor),
                     ),
                   ),
                 ),
@@ -403,238 +351,54 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
 
   _widthCalc() {
     fullWidth = MediaQuery.of(context).size.width - 48 - 16 - 24;
-
     if (widget.border != null) {
       fullWidth =
           fullWidth - widget.border!(status, card).dimensions.horizontal;
     }
-
     if (sizeConfig == 0) {
       _cardNumberWidth = fullWidth * 0.75;
       _cardExpirationWidth = fullWidth * 0.25;
-      _cardCVVWidth = fullWidth * 0.00;
-      _cardZipWidth = fullWidth * 0.00;
+      _cardCVCWidth = fullWidth * 0.00;
     } else if (sizeConfig == 1) {
-      _cardNumberWidth = fullWidth * 0.25;
-      _cardExpirationWidth = fullWidth * 0.30;
-      _cardCVVWidth = fullWidth * 0.20;
-      _cardZipWidth = fullWidth * 0.25;
+      _cardNumberWidth = fullWidth * 0.65;
+      _cardExpirationWidth = fullWidth * 0.20;
+      _cardCVCWidth = fullWidth * 0.15;
     } else if (sizeConfig == 2) {
-      _cardNumberWidth = fullWidth * 0.33;
-      _cardExpirationWidth = fullWidth * 0.34;
-      _cardCVVWidth = fullWidth * 0.33;
-      _cardZipWidth = fullWidth * 0.0;
+      _cardNumberWidth = fullWidth * 0.65;
+      _cardExpirationWidth = fullWidth * 0.20;
+      _cardCVCWidth = fullWidth * 0.15;
     }
   }
 
   _onCardNumberFocusChanged() {
     if (_cardNumberFocus.hasFocus) {
-      setState(() {
-        sizeConfig = 0;
-        _animatedCardWidget = Container(
-          key: ValueKey(card.brand),
-          height: 24,
-          width: 32,
-          child: Image(
-            image: AssetImage(card.asCardImage() ?? "",
-                package: "flutter_payments_stripe_sdk"),
-          ),
-        );
-      });
+      sizeConfig = 0;
+      _cardNumberController!.text = card.number ?? "";
+      _setImageCard();
     } else {
       if (card.number != null && card.number!.length > 4) {
         _cardNumberController!.text = card.number!.substring(0, 5);
       }
-      if (cardLength != null && card.number!.isNotEmpty) {
-        if (cardLength != null && card.number!.length < cardLength!) {
-          setState(() {
-            isCardIncomplete = true;
-            themeColor = widget.errorColor;
-            validityAlpha = 1;
-            status = PaymentCardTextFieldStatus.error;
-            validityMessage = widget.validationMessage != null
-                ? widget.validationMessage!(
-                    PaymentCardTextFieldError.cardIncomplete)
-                : 'Your card\'s number is incomplete.';
-            _animatedMessageWidget = Container(
-              key: ValueKey(1),
-              height: 24,
-              width: 24,
-              child: widget.validationIcon != null
-                  ? widget
-                      .validationIcon!(PaymentCardTextFieldError.cardIncomplete)
-                  : Icon(
-                      Icons.cancel,
-                      color: themeColor,
-                      size: 16,
-                    ),
-            );
-            _animatedCardWidget = Container(
-              key: ValueKey(3),
-              height: 24,
-              width: 32,
-              child: Image(
-                image: AssetImage(
-                  'lib/assets/images/stp_card_error.png',
-                  package: "flutter_payments_stripe_sdk",
-                ),
-              ),
-            );
-          });
-        } else {
-          setState(() {
-            isCardIncomplete = false;
-          });
-        }
-      }
+      _setImageCard();
+      _onValidation();
     }
   }
 
   _onCardExpirationFocusChanged() {
-    if (_cardExpirationFocus.hasFocus) {
-      setState(() {
-        sizeConfig = widget.showZip ? 1 : 2;
-      });
-
-      if (isCardIncomplete) {
-        setState(() {
-          _animatedCardWidget = Container(
-            key: ValueKey(3),
-            height: 24,
-            width: 32,
-            child: Image(
-              image: AssetImage(
-                'lib/assets/images/stp_card_error.png',
-                package: "flutter_payments_stripe_sdk",
-              ),
-            ),
-          );
-        });
-      } else {
-        setState(() {
-          _animatedCardWidget = Container(
-            key: ValueKey(card.brand),
-            height: 24,
-            width: 32,
-            child: Image(
-              image: AssetImage(card.asCardImage() ?? "",
-                  package: "flutter_payments_stripe_sdk"),
-            ),
-          );
-        });
-      }
-    } else {
-      if (_cardExpirationController.text.isNotEmpty) {
-        if (_cardExpirationController.text.length < 5) {
-          setState(() {
-            themeColor = widget.errorColor;
-            validityAlpha = 1;
-            status = PaymentCardTextFieldStatus.error;
-            validityMessage = widget.validationMessage != null
-                ? widget.validationMessage!(
-                    PaymentCardTextFieldError.expirationDateIncomplete)
-                : 'Your card\'s expiration date is incomplete.';
-            _animatedMessageWidget = Container(
-              key: ValueKey(1),
-              height: 24,
-              width: 24,
-              child: widget.validationIcon != null
-                  ? widget.validationIcon!(
-                      PaymentCardTextFieldError.expirationDateIncomplete)
-                  : Icon(
-                      Icons.cancel,
-                      color: themeColor,
-                      size: 16,
-                    ),
-            );
-          });
-        }
-      }
-    }
+    sizeConfig = 2;
+    _setImageCard(showCvc: _cardCVCFocus.hasFocus);
+    _onValidation();
   }
 
-  _onCardCVVFocusChanged() {
-    if (_cardCVVFocus.hasFocus) {
-      setState(() {
-        _animatedCardWidget = Container(
-          key: ValueKey(1001),
-          height: 24,
-          width: 32,
-          child: Image(
-            image: AssetImage('lib/assets/images/stp_card_cvc.png',
-                package: "flutter_payments_stripe_sdk"),
-          ),
-        );
-      });
-    } else {
-      if (isCardIncomplete) {
-        setState(() {
-          _animatedCardWidget = Container(
-            key: ValueKey(3),
-            height: 24,
-            width: 32,
-            child: Image(
-              image: AssetImage(
-                'lib/assets/images/stp_card_error.png',
-                package: "flutter_payments_stripe_sdk",
-              ),
-            ),
-          );
-        });
-      } else {
-        setState(() {
-          _animatedCardWidget = Container(
-            key: ValueKey(card.brand),
-            height: 24,
-            width: 32,
-            child: Image(
-              image: AssetImage(card.asCardImage() ?? "",
-                  package: "flutter_payments_stripe_sdk"),
-            ),
-          );
-        });
-      }
-      if (cvcCount != null && _cardCVVController.text.length < cvcCount!) {
-        setState(() {
-          themeColor = widget.errorColor;
-          validityAlpha = 1;
-          status = PaymentCardTextFieldStatus.error;
-          validityMessage = widget.validationMessage != null
-              ? widget.validationMessage!(
-                  PaymentCardTextFieldError.securityCodeIncomplete)
-              : 'Your card\'s security code is incomplete.';
-          _animatedMessageWidget = Container(
-            key: ValueKey(1),
-            height: 24,
-            width: 24,
-            child: widget.validationIcon != null
-                ? widget.validationIcon!(
-                    PaymentCardTextFieldError.securityCodeIncomplete)
-                : Icon(
-                    Icons.cancel,
-                    color: themeColor,
-                    size: 16,
-                  ),
-          );
-        });
-      }
-    }
+  _onCardCVCFocusChanged() {
+    sizeConfig = 2;
+    _setImageCard(showCvc: _cardCVCFocus.hasFocus);
+    _onValidation();
   }
-
-  _onCardZipFocusChanged() {}
 
   _onCardNumberChanged() {
     card.number = _cardNumberController!.text;
-    setState(() {
-      _animatedCardWidget = Container(
-          key: ValueKey(card.brand),
-          height: 24,
-          width: 32,
-          child: Image(
-            image: AssetImage(card.asCardImage() ?? "",
-                package: "flutter_payments_stripe_sdk"),
-          ));
-    });
+    _setImageCard();
     if (_cardNumberController!.text.length < 4) {
       if (numberCount != null &&
           _cardNumberController!.text.length > numberCount!) {
@@ -643,68 +407,18 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
       numberCount = _cardNumberController!.text.length;
       cardLength = getLengthForBrand(card.brand);
       cvcCount = getLengthForCVC(card.brand);
-
       if (cvcCount == 3) {
-        _cardCVVController.updateMask('000');
+        _cardCVCController.updateMask('000');
       } else {
-        _cardCVVController.updateMask('0000');
+        _cardCVCController.updateMask('0000');
       }
     }
-
-    if (card.number!.length == cardLength) {
-      isCardValid = isValidCardNumber(card.number);
-      setState(() {
-        validityAlpha = 1;
-        themeColor = widget.primaryColor;
-        if (isCardValid) {
-          status = PaymentCardTextFieldStatus.success;
-          validityMessage = widget.validationMessage != null
-              ? widget.validationMessage!(PaymentCardTextFieldError.cardValid)
-              : 'Card valid';
-          _animatedMessageWidget = Container(
-            key: ValueKey(1),
-            height: 24,
-            width: 24,
-            child: widget.validationIcon != null
-                ? widget.validationIcon!(PaymentCardTextFieldError.cardValid)
-                : Icon(
-                    Icons.check_circle,
-                    color: themeColor,
-                    size: 16,
-                  ),
-          );
-        } else {
-          themeColor = widget.errorColor;
-          status = PaymentCardTextFieldStatus.error;
-          validityMessage = widget.validationMessage != null
-              ? widget
-                  .validationMessage!(PaymentCardTextFieldError.cardNotValid)
-              : 'Card not valid';
-          _animatedMessageWidget = Container(
-            key: ValueKey(2),
-            height: 24,
-            width: 24,
-            child: widget.validationIcon != null
-                ? widget.validationIcon!(PaymentCardTextFieldError.cardNotValid)
-                : Icon(
-                    Icons.cancel,
-                    color: themeColor,
-                    size: 16,
-                  ),
-          );
-        }
-      });
-    } else {
-      setState(() {
-        themeColor = widget.primaryColor;
-        validityAlpha = 0;
-        validityMessage = "";
-        status = PaymentCardTextFieldStatus.success;
-      });
-    }
-
+    _onValidation();
     if (widget.onCardChanged != null) {
       widget.onCardChanged!(card);
+    }
+    if (cardLength == _cardNumberController?.text.length) {
+      FocusScope.of(context).nextFocus();
     }
   }
 
@@ -726,16 +440,6 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
         _cardExpirationController.text = _cardExpirationController.text;
       }
     }
-
-    if (_cardExpirationController.text.isEmpty) {
-      setState(() {
-        themeColor = widget.primaryColor;
-        validityAlpha = 0;
-        validityMessage = "";
-        status = PaymentCardTextFieldStatus.success;
-      });
-    }
-
     card.expMonth = null;
     card.expYear = null;
     if (_cardExpirationController.text.length > 1 &&
@@ -745,12 +449,154 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
     if (_cardExpirationController.text.length == 5) {
       card.expMonth = int.parse(_cardExpirationController.text.substring(0, 2));
       card.expYear = int.parse(_cardExpirationController.text.substring(3, 5));
+    }
+    _onValidation();
+    if (widget.onCardChanged != null) {
+      widget.onCardChanged!(card);
+    }
+    if (_cardExpirationController.text.length == 5) {
+      FocusScope.of(context).nextFocus();
+    }
+  }
 
-      if (!validateExpiryDate(card.expMonth, card.expYear)) {
-        setState(() {
-          themeColor = widget.errorColor;
-          validityAlpha = 1;
-          status = PaymentCardTextFieldStatus.error;
+  _onCardCVCChanged() {
+    card.cvc = _cardCVCController.text;
+    _onValidation();
+    if (widget.onCardChanged != null) {
+      widget.onCardChanged!(card);
+    }
+  }
+
+  //CARD IMAGE
+  _setImageCard({bool forceCardBrand = false, bool showCvc = false}) {
+    if (forceCardBrand) {
+      setState(() {
+        _animatedCardWidget = Container(
+            key: ValueKey(card.brand),
+            height: 24,
+            width: 32,
+            child: Image(
+              image: AssetImage(card.asCardImage() ?? "",
+                  package: "flutter_payments_stripe_sdk"),
+            ));
+      });
+      return;
+    }
+    var v1 = !card.isEmpty() &&
+        (card.number?.length == cardLength && !card.validateNumber());
+    var v2 = !card.isEmpty() &&
+        (card.cvc?.length == cvcCount && !card.validateCVC());
+    var v3 = !card.isEmpty() &&
+        (card.expMonth != null && card.expYear != null && !card.validateDate());
+    if (v1 || v2 || v3) {
+      setState(() {
+        _animatedCardWidget = Container(
+          key: ValueKey(3),
+          height: 24,
+          width: 32,
+          child: Image(
+            image: AssetImage(
+              'lib/assets/images/stp_card_error.png',
+              package: "flutter_payments_stripe_sdk",
+            ),
+          ),
+        );
+      });
+    } else {
+      setState(() {
+        if (showCvc) {
+          _animatedCardWidget = Container(
+            key: ValueKey(1001),
+            height: 24,
+            width: 32,
+            child: Image(
+              image: AssetImage('lib/assets/images/stp_card_cvc.png',
+                  package: "flutter_payments_stripe_sdk"),
+            ),
+          );
+        } else {
+          _animatedCardWidget = Container(
+            key: ValueKey(card.brand),
+            height: 24,
+            width: 32,
+            child: Image(
+              image: AssetImage(card.asCardImage() ?? "",
+                  package: "flutter_payments_stripe_sdk"),
+            ),
+          );
+        }
+      });
+    }
+  }
+
+  //VALIDATION
+  _onValidation() {
+    var errorFound = false;
+    _setSuccess();
+
+    //CVC
+    if (!errorFound && !_cardCVCFocus.hasFocus) {
+      if (_cardCVCController.text.length == cvcCount) {
+        if (!card.validateCVC()) {
+          errorFound = true;
+          _setError();
+          error = PaymentCardTextFieldError.cvcNotValid;
+          validityMessage = widget.validationMessage != null
+              ? widget.validationMessage!(PaymentCardTextFieldError.cvcNotValid)
+              : 'Card\'s CVC not valid.';
+        }
+      } else if (_cardCVCController.text.isNotEmpty) {
+        errorFound = true;
+        _setError();
+        error = PaymentCardTextFieldError.securityCodeIncomplete;
+        validityMessage = widget.validationMessage != null
+            ? widget.validationMessage!(
+                PaymentCardTextFieldError.securityCodeIncomplete)
+            : 'Your card\'s security code is incomplete.';
+        _animatedMessageWidget = Container(
+          key: ValueKey(1),
+          height: 24,
+          width: 24,
+          child: widget.validationIcon != null
+              ? widget.validationIcon!(
+                  PaymentCardTextFieldError.securityCodeIncomplete)
+              : Icon(
+                  Icons.cancel,
+                  color: themeColor,
+                  size: 16,
+                ),
+        );
+      }
+    }
+
+    //DATE
+    if (!errorFound && !_cardExpirationFocus.hasFocus) {
+      if (_cardExpirationController.text.isNotEmpty) {
+        if (_cardExpirationController.text.length < 5) {
+          errorFound = true;
+          _setError();
+          error = PaymentCardTextFieldError.expirationDateIncomplete;
+          validityMessage = widget.validationMessage != null
+              ? widget.validationMessage!(
+                  PaymentCardTextFieldError.expirationDateIncomplete)
+              : 'Your card\'s expiration date is incomplete.';
+          _animatedMessageWidget = Container(
+            key: ValueKey(1),
+            height: 24,
+            width: 24,
+            child: widget.validationIcon != null
+                ? widget.validationIcon!(
+                    PaymentCardTextFieldError.expirationDateIncomplete)
+                : Icon(
+                    Icons.cancel,
+                    color: themeColor,
+                    size: 16,
+                  ),
+          );
+        } else if (!card.validateDate()) {
+          errorFound = true;
+          _setError();
+          error = PaymentCardTextFieldError.expirationYearIsInThePast;
           validityMessage = widget.validationMessage != null
               ? widget.validationMessage!(
                   PaymentCardTextFieldError.expirationYearIsInThePast)
@@ -768,46 +614,95 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
                     size: 16,
                   ),
           );
-        });
-      } else {
-        setState(() {
-          validityAlpha = 0;
-          validityMessage = "";
-          status = PaymentCardTextFieldStatus.success;
-          themeColor = widget.primaryColor;
-        });
+        }
       }
     }
 
-    if (widget.onCardChanged != null) {
-      widget.onCardChanged!(card);
+    //CARD NUMBER
+    if (!errorFound && !_cardNumberFocus.hasFocus) {
+      if (card.number?.length == cardLength) {
+        if (!card.validateNumber()) {
+          errorFound = true;
+          _setError();
+          error = PaymentCardTextFieldError.cardNotValid;
+          validityMessage = widget.validationMessage != null
+              ? widget
+                  .validationMessage!(PaymentCardTextFieldError.cardNotValid)
+              : 'Your card number is invalid.';
+          _animatedMessageWidget = Container(
+            key: ValueKey(2),
+            height: 24,
+            width: 24,
+            child: widget.validationIcon != null
+                ? widget.validationIcon!(PaymentCardTextFieldError.cardNotValid)
+                : Icon(
+                    Icons.cancel,
+                    color: themeColor,
+                    size: 16,
+                  ),
+          );
+        }
+      } else {
+        isCardIncomplete = true;
+        errorFound = true;
+        _setError();
+        error = PaymentCardTextFieldError.cardIncomplete;
+        validityMessage = widget.validationMessage != null
+            ? widget
+                .validationMessage!(PaymentCardTextFieldError.cardIncomplete)
+            : 'Your card\'s number is incomplete.';
+        _animatedMessageWidget = Container(
+          key: ValueKey(1),
+          height: 24,
+          width: 24,
+          child: widget.validationIcon != null
+              ? widget.validationIcon!(PaymentCardTextFieldError.cardIncomplete)
+              : Icon(
+                  Icons.cancel,
+                  color: themeColor,
+                  size: 16,
+                ),
+        );
+        _animatedCardWidget = Container(
+          key: ValueKey(3),
+          height: 24,
+          width: 32,
+          child: Image(
+            image: AssetImage(
+              'lib/assets/images/stp_card_error.png',
+              package: "flutter_payments_stripe_sdk",
+            ),
+          ),
+        );
+      }
     }
+
+    if (card.validateCard()) {
+      sizeConfig = 2;
+    }
+
+    setState(() {});
   }
 
-  _onCardCVVChanged() {
-    card.cvc = _cardCVVController.text;
-    if (_cardCVVController.text.length == cvcCount) {
-      if (!card.validateCVC()) {
-        setState(() {
-          themeColor = widget.errorColor;
-          validityAlpha = 1;
-          status = PaymentCardTextFieldStatus.error;
-          validityMessage = widget.validationMessage != null
-              ? widget.validationMessage!(PaymentCardTextFieldError.cvcNotValid)
-              : 'Card\'s CVC not valid.';
-        });
-      }
-    }
-    if (widget.onCardChanged != null) {
-      widget.onCardChanged!(card);
-    }
+  _setError() {
+    themeColor = widget.errorColor;
+    validityAlpha = 1;
+    status = PaymentCardTextFieldStatus.error;
+  }
+
+  _setSuccess() {
+    isCardIncomplete = false;
+    validityAlpha = 0;
+    validityMessage = "";
+    status = PaymentCardTextFieldStatus.success;
+    themeColor = widget.primaryColor;
+    _animatedMessageWidget = Container();
   }
 }
 
 enum PaymentCardTextFieldError {
   cvcNotValid,
   expirationYearIsInThePast,
-  cardValid,
   cardNotValid,
   cardIncomplete,
   expirationDateIncomplete,

@@ -110,9 +110,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                     _buildCardIimageContainer(),
                     Container(
                       //margin: EdgeInsets.symmetric(horizontal: 12),
-                      child: PaymentCardTextField(
-                        showZip: !widget.showBillingAddressBox,
-                      ),
+                      child: PaymentCardTextField(),
                     ),
                     SizedBox(height: 30),
                     if (widget.showBillingAddressBox)

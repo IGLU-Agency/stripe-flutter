@@ -1,6 +1,7 @@
-## [2.0.1 - 2.0.2] - 03/05/2021
+## [2.0.1 - 2.0.2 - 2.0.3] - 03/05/2021
 
 - validity widget improvements
+- payment_card_text_field improvements
 
 ## [2.0.0] - 02/05/2021
 
