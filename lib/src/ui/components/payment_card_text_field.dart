@@ -369,7 +369,9 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
             ),
           ),
         ),
-        if (widget.showValidityWidget)
+        if (widget.showValidityWidget &&
+            validityMessage.isNotEmpty &&
+            validityAlpha == 1)
           Padding(
             padding: widget.validityPadding ??
                 EdgeInsets.only(left: 20.0, right: 20.0, top: 8),
@@ -696,6 +698,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
       setState(() {
         themeColor = widget.primaryColor;
         validityAlpha = 0;
+        validityMessage = "";
         status = PaymentCardTextFieldStatus.success;
       });
     }
@@ -728,6 +731,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
       setState(() {
         themeColor = widget.primaryColor;
         validityAlpha = 0;
+        validityMessage = "";
         status = PaymentCardTextFieldStatus.success;
       });
     }
@@ -768,6 +772,7 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
       } else {
         setState(() {
           validityAlpha = 0;
+          validityMessage = "";
           status = PaymentCardTextFieldStatus.success;
           themeColor = widget.primaryColor;
         });

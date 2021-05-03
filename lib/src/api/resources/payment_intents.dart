@@ -18,7 +18,8 @@ class PaymentIntents {
     final intentId = parseIdFromClientSecret(clientSecret);
     final path = "/payment_intents/$intentId";
     final params = {'client_secret': clientSecret};
-    var result = await (_stripe.request(RequestMethod.get, path, params: params) as FutureOr<Map<String, dynamic>>);
+    var result = await (_stripe.request(RequestMethod.get, path, params: params)
+        as FutureOr<Map<String, dynamic>>);
     if (result.containsKey("isError") && result.containsKey("error")) {
       return StripeError.fromJson(result["error"]);
     } else {
@@ -38,8 +39,9 @@ class PaymentIntents {
     params['client_secret'] = clientSecret;
     params.putIfAbsent("return_url", () => _stripe.getReturnUrlForSca());
     final path = "/payment_intents/$intent/confirm";
-    var result =
-        await (_stripe.request(RequestMethod.post, path, params: params as Map<String, dynamic>) as FutureOr<Map<String, dynamic>>);
+    var result = await (_stripe.request(RequestMethod.post, path,
+            params: params as Map<String, dynamic>)
+        as FutureOr<Map<String, dynamic>>);
     if (result.containsKey("isError") && result.containsKey("error")) {
       return StripeError.fromJson(result["error"]);
     } else {
