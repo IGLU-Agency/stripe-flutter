@@ -28,7 +28,8 @@ class PaymentCardTextField extends StatefulWidget {
 
   final bool showShadow;
   final List<BoxShadow>? boxShadow;
-  final BoxDecoration? decoration;
+  final BoxDecoration? Function(PaymentCardTextFieldStatus, StripeCard)?
+      decoration;
   final BoxBorder Function(PaymentCardTextFieldStatus, StripeCard)? border;
   final BorderRadiusGeometry? borderRadius;
 
@@ -178,23 +179,25 @@ class _PaymentCardTextFieldState extends State<PaymentCardTextField> {
             constraints: widget.constraints ?? BoxConstraints(maxWidth: 400),
             duration: Duration(milliseconds: 150),
             height: widget.height,
-            decoration: widget.decoration ??
-                BoxDecoration(
-                  color: widget.backgroundColor,
-                  border: widget.border != null
-                      ? widget.border!(status, card)
-                      : null,
-                  borderRadius: widget.borderRadius ?? BorderRadius.circular(6),
-                  boxShadow: widget.showShadow
-                      ? widget.boxShadow ??
-                          [
-                            BoxShadow(
-                                color: themeColor!,
-                                blurRadius: 2,
-                                spreadRadius: 1),
-                          ]
-                      : null,
-                ),
+            decoration: widget.decoration != null
+                ? widget.decoration!(status, card)
+                : BoxDecoration(
+                    color: widget.backgroundColor,
+                    border: widget.border != null
+                        ? widget.border!(status, card)
+                        : null,
+                    borderRadius:
+                        widget.borderRadius ?? BorderRadius.circular(6),
+                    boxShadow: widget.showShadow
+                        ? widget.boxShadow ??
+                            [
+                              BoxShadow(
+                                  color: themeColor!,
+                                  blurRadius: 2,
+                                  spreadRadius: 1),
+                            ]
+                        : null,
+                  ),
             child: Row(
               children: <Widget>[
                 Container(
