@@ -60,21 +60,19 @@ class StripeApiHandler {
         if (params != null && params.isNotEmpty) {
           fUrl = "$url?${_encodeMap(params)}";
         }
-        response = await _client.get(Uri.parse(fUrl),
-            headers: headers as Map<String, String>?);
+        response = await _client.get(Uri.parse(fUrl), headers: headers);
         break;
 
       case RequestMethod.post:
         response = await _client.post(
           Uri.parse(url),
-          headers: headers as Map<String, String>?,
+          headers: headers,
           body: params != null ? _urlEncodeMap(params) : null,
         );
         break;
 
       case RequestMethod.delete:
-        response = await _client.delete(Uri.parse(url),
-            headers: headers as Map<String, String>?);
+        response = await _client.delete(Uri.parse(url), headers: headers);
         break;
       default:
         throw Exception("Request Method: $method not implemented");
@@ -107,8 +105,8 @@ class StripeApiHandler {
   ///
   ///
   ///
-  static Map<String, String?> _headers({RequestOptions? options}) {
-    final Map<String, String?> headers = Map();
+  static Map<String, String> _headers({RequestOptions? options}) {
+    final Map<String, String> headers = Map();
     headers["Accept-Charset"] = "UTF-8";
     headers["Accept"] = "application/json";
     headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -131,7 +129,7 @@ class StripeApiHandler {
       headers["Stripe-Version"] = options.apiVersion;
 
       if (options.stripeAccount != null) {
-        headers["Stripe-Account"] = options.stripeAccount;
+        headers["Stripe-Account"] = options.stripeAccount ?? "";
       }
     }
 

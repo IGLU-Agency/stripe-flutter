@@ -57,21 +57,22 @@ class SetupIntents {
     params.putIfAbsent("return_url", () => _stripe.getReturnUrlForSca());
     final path = "/setup_intents/$intent/confirm";
     var result = await (_stripe.request(RequestMethod.post, path,
-            params: params as Map<String, dynamic>)
-        as FutureOr<Map<String, dynamic>>);
-    if (result.containsKey("isError") && result.containsKey("error")) {
-      return StripeError.fromJson(result["error"]);
-    } else {
-      var intent = SetupIntent.fromJson(result);
-      if (intent.status == SetupIntentStatus.requiresAction &&
-          intent.nextAction!.type == IntentActionType.redirectToUrl) {
-        var result = await _stripe.authenticateIntent(
-            intent.nextAction!,
-            (uri) => retrieveSetupIntent(
-                uri!.queryParameters['setup_intent_client_secret']!));
-        return result;
+        params: params as Map<String, dynamic>));
+    if (result != null) {
+      if (result.containsKey("isError") && result.containsKey("error")) {
+        return StripeError.fromJson(result["error"]);
       } else {
-        return intent;
+        var intent = SetupIntent.fromJson(result);
+        if (intent.status == SetupIntentStatus.requiresAction &&
+            intent.nextAction!.type == IntentActionType.redirectToUrl) {
+          var result = await _stripe.authenticateIntent(
+              intent.nextAction!,
+              (uri) => retrieveSetupIntent(
+                  uri!.queryParameters['setup_intent_client_secret']!));
+          return result;
+        } else {
+          return intent;
+        }
       }
     }
   }

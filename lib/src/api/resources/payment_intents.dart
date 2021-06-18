@@ -18,12 +18,16 @@ class PaymentIntents {
     final intentId = parseIdFromClientSecret(clientSecret);
     final path = "/payment_intents/$intentId";
     final params = {'client_secret': clientSecret};
-    var result = await (_stripe.request(RequestMethod.get, path, params: params)
-        as FutureOr<Map<String, dynamic>>);
-    if (result.containsKey("isError") && result.containsKey("error")) {
-      return StripeError.fromJson(result["error"]);
+    var result =
+        await (_stripe.request(RequestMethod.get, path, params: params));
+    if (result != null) {
+      if (result.containsKey("isError") && result.containsKey("error")) {
+        return StripeError.fromJson(result["error"]);
+      } else {
+        return PaymentIntent.fromJson(result);
+      }
     } else {
-      return PaymentIntent.fromJson(result);
+      return PaymentIntent.fromJson({});
     }
   }
 
@@ -40,21 +44,22 @@ class PaymentIntents {
     params.putIfAbsent("return_url", () => _stripe.getReturnUrlForSca());
     final path = "/payment_intents/$intent/confirm";
     var result = await (_stripe.request(RequestMethod.post, path,
-            params: params as Map<String, dynamic>)
-        as FutureOr<Map<String, dynamic>>);
-    if (result.containsKey("isError") && result.containsKey("error")) {
-      return StripeError.fromJson(result["error"]);
-    } else {
-      var intent = PaymentIntent.fromJson(result);
-      if (intent.status == PaymentIntentStatus.requiresAction &&
-          intent.nextAction!.type == IntentActionType.redirectToUrl) {
-        var result = await _stripe.authenticateIntent(
-            intent.nextAction!,
-            (uri) => retrievePaymentIntent(
-                uri!.queryParameters['payment_intent_client_secret']!));
-        return result;
+        params: params as Map<String, dynamic>));
+    if (result != null) {
+      if (result.containsKey("isError") && result.containsKey("error")) {
+        return StripeError.fromJson(result["error"]);
       } else {
-        return intent;
+        var intent = PaymentIntent.fromJson(result);
+        if (intent.status == PaymentIntentStatus.requiresAction &&
+            intent.nextAction!.type == IntentActionType.redirectToUrl) {
+          var result = await _stripe.authenticateIntent(
+              intent.nextAction!,
+              (uri) => retrievePaymentIntent(
+                  uri!.queryParameters['payment_intent_client_secret']!));
+          return result;
+        } else {
+          return intent;
+        }
       }
     }
   }
