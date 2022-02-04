@@ -1,12 +1,6 @@
-import 'dart:async';
-
-import 'package:flutter_payments_stripe_sdk/src/api/model/confirm_payment_intent_request.dart';
-import 'package:flutter_payments_stripe_sdk/src/api/model/payment_intent.dart';
+import 'package:flutter_payments_stripe_sdk/src/api/api_handler.dart';
 
 import '../../../flutter_payments_stripe_sdk.dart';
-import '../api_handler.dart';
-import '../error.dart';
-import '../stripe.dart';
 
 class PaymentIntents {
   PaymentIntents(this._stripe);

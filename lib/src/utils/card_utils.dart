@@ -1,5 +1,4 @@
 import 'package:flutter_payments_stripe_sdk/flutter_payments_stripe_sdk.dart';
-import 'package:flutter_payments_stripe_sdk/src/ui/model/card.dart';
 
 import 'model_utils.dart';
 import 'text_utils.dart';

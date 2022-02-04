@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SeparatorLine extends StatelessWidget {
   final EdgeInsets? margin;

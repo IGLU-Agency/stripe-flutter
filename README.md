@@ -10,7 +10,7 @@ Get started with Stripe [📚 integration guides](https://stripe.com/docs/paymen
 
 **SCA-Ready**: The SDK automatically performs native [3D Secure authentication](https://stripe.com/docs/payments/3d-secure) if needed to comply with [Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication) regulation in Europe.
 
-**Stripe API**: If you want to use low-level APIs, use our [Stripe Dart](https://github.com/LucaIaconelli/stripe-dart).
+**Stripe API**: If you want to use low-level APIs, use our [Stripe Dart](https://github.com/IGLU-Agency/stripe-dart).
 
 **Native UI**: We provide native screens and elements to collect payment and shipping details. For example, PaymentCardTextField is a Widget that collects and validates card details.
 

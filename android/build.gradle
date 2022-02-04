@@ -1,4 +1,4 @@
-group 'it.iaconelli.flutter_payments_stripe_sdk'
+group 'dev.iglu.flutter_payments_stripe_sdk'
 version '1.0-SNAPSHOT'
 
 buildscript {

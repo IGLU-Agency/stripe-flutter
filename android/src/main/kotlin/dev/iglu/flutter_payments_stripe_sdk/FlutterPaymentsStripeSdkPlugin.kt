@@ -1,4 +1,4 @@
-package it.iaconelli.flutter_payments_stripe_sdk
+package dev.iglu.flutter_payments_stripe_sdk
 
 import androidx.annotation.NonNull
 

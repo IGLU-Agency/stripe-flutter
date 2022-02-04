@@ -121,7 +121,7 @@ class StripeApiHandler {
     propertyMap["os.name"] = defaultTargetPlatform.toString();
     propertyMap["bindings.version"] = versionName;
     propertyMap["lang"] = "Dart";
-    propertyMap["publisher"] = "luca@iaconelli.it";
+    propertyMap["publisher"] = "info@iglu.dev";
 
     headers["X-Stripe-Client-User-Agent"] = json.encode(propertyMap);
 
